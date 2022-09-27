@@ -6,4 +6,4 @@ from .models import Shop
 
 def index(request):
     shop = Shop.objects.all()
-    return render(request, 'shop/index.html', {'shop':shop, 'title':'Список новостей'})
+    return render(request, 'shop/index.html', {'shop':shop, 'title':'Список товаров'})
