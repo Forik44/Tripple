@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.getRoutes, name="routes"),
     path('shop/', views.getProducts, name="products"),
     path('shop/<str:pk>/', views.getProduct, name="product"),
+    path('shop/product_category/<str:pk>/', views.getCategory, name="product"),
 ]

@@ -9,7 +9,7 @@ class Product(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано?')
     price = models.IntegerField(verbose_name='Стоимость')
     category_id = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Категория')
-    accessory_id = models.IntegerField(verbose_name='ID комплектующего')
+    accessory_id = models.IntegerField(default=0, verbose_name='ID комплектующего')
 
     def __str__(self):
         return self.title

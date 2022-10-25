@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Product
-from .serializers import ProductSerializer
+from .models import CPU, GPU
+from .serializers import CPUSerializer, GPUSerializer
 
 # Create your views here.
 
@@ -44,19 +44,16 @@ def getRoutes(request):
     return Response(routes)
 
 @api_view(['GET'])
-def getProducts(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+def getCategoryItem(request, category_id, pk):
 
-@api_view(['GET'])
-def getProduct(request, pk):
-    products = Product.objects.get(id=pk)
-    serializer = ProductSerializer(products, many=False)
-    return Response(serializer.data)
+    if(category_id == "1"):
+        products = CPU.objects.get(id=pk)
+        serializer = CPUSerializer(products, many=False)
+        return Response(serializer.data)
 
-@api_view(['GET'])
-def getCategory(request, pk):
-    products = Product.objects.filter(category_id=pk)
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    if (category_id == "2"):
+        products = GPU.objects.get(id=pk)
+        serializer = GPUSerializer(products, many=False)
+        return Response(serializer.data)
+
+    return Response()
