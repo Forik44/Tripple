@@ -47,7 +47,9 @@ from django.http import JsonResponse
 
 @api_view(['GET'])
 def getProducts(request):
-    products = Product.objects.all()
+    limit = int(request.query_params.get('_limit'))
+    page = int(request.query_params.get('_page'))
+    products = Product.objects.all()[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     responce = Response(serializer.data)
     responce["x-total-count"] = len(products)
@@ -61,7 +63,9 @@ def getProduct(request, pk):
 
 @api_view(['GET'])
 def getCategory(request, pk):
-    products = Product.objects.filter(category_id=pk)
+    limit = int(request.query_params.get('_limit'))
+    page = int(request.query_params.get('_page'))
+    products = Product.objects.filter(category_id=pk)[(page - 1) * limit:page * limit]
     serializer = ProductSerializer(products, many=True)
     responce = Response(serializer.data)
     responce["x-total-count"] = len(products)
