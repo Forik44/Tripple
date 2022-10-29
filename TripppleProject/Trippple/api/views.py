@@ -67,6 +67,6 @@ def getCategory(request, pk):
     page = int(request.query_params.get('_page'))
     products = Product.objects.filter(category_id=pk)[(page - 1) * limit:page * limit]
     serializer = ProductSerializer(products, many=True)
-    responce = Response(serializer.data)
-    responce["x-total-count"] = len(Product.objects.filter(category_id=pk))
+    responce = Response(serializer.data, headers={"x-total-count": len(Product.objects.filter(category_id=pk))})
+
     return responce
