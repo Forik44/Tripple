@@ -43,11 +43,15 @@ def getRoutes(request):
     ]
     return Response(routes)
 
+from django.http import JsonResponse
+
 @api_view(['GET'])
 def getProducts(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    responce = Response(serializer.data)
+    responce["x-total-count"] = len(products)
+    return responce
 
 @api_view(['GET'])
 def getProduct(request, pk):
@@ -59,4 +63,6 @@ def getProduct(request, pk):
 def getCategory(request, pk):
     products = Product.objects.filter(category_id=pk)
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    responce = Response(serializer.data)
+    responce["x-total-count"] = len(products)
+    return responce
