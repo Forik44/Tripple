@@ -1,13 +1,35 @@
-import './App.css';
-import Header from './components/Header'
-import ShopListPage from './pages/ShopListPage'
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/AllPageComponents/Layout";
+import AccessoryPage from "./pages/AccessoryPage";
+import MainPage from "./pages/MainPage";
+import SignUp from "./pages/SignUp/SignUp";
+import "./App.css";
+import { ModalProvider } from "./hoc/ModalProvider";
+import Store from "./store/store";
+import { createContext } from "react";
+
+const store = new Store();
+export const Context = createContext({
+  store,
+});
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <ShopListPage/>
-    </div>
+    <BrowserRouter>
+      <Context.Provider value={{ store }}>
+        <ModalProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<MainPage />} />
+              <Route path="shop/:id" element={<AccessoryPage />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="*" element={<MainPage />} />
+            </Route>
+          </Routes>
+        </ModalProvider>
+      </Context.Provider>
+    </BrowserRouter>
   );
 }
 
