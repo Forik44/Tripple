@@ -129,14 +129,15 @@ USE_TZ = True
 import os
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'frontend/build/static' #Unnecessary if you just need Backend Setup for Image Upload. It's just to Load React Project Static Files
 ]
 
-MEDIA_ROOT = BASE_DIR / 'static/images'
+MEDIA_ROOT = BASE_DIR / 'static/media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
