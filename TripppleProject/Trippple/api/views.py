@@ -52,7 +52,7 @@ def getProducts(request):
     products = Product.objects.all()[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     responce = Response(serializer.data)
-    responce["x-total-count"] = len(products)
+    responce["x-total-count"] = len(Product.objects.all())
     return responce
 
 @api_view(['GET'])
@@ -68,5 +68,5 @@ def getCategory(request, pk):
     products = Product.objects.filter(category_id=pk)[(page - 1) * limit:page * limit]
     serializer = ProductSerializer(products, many=True)
     responce = Response(serializer.data)
-    responce["x-total-count"] = len(products)
+    responce["x-total-count"] = len(Product.objects.filter(category_id=pk))
     return responce
