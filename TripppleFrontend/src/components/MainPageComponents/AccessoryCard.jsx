@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
+import axios from "axios";
 
 export default function AccessoryCard(props) {
   const { store } = useContext(Context);
@@ -18,6 +19,7 @@ export default function AccessoryCard(props) {
   const [save, setSave] = useState(props.data.save);
   const [color, setColor] = useState("white");
   const router = useNavigate();
+
   return (
     <Card
       sx={{
@@ -34,7 +36,7 @@ export default function AccessoryCard(props) {
           <CardMedia
             sx={{ width: "80%", ml: "2rem", my: "1rem" }}
             component="img"
-            image="\images\croc.png"
+            image={"http://127.0.0.1:8000" + props.data.photo}
             alt="картинка"
           />
         </Grid>

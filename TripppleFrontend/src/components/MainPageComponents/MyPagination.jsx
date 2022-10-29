@@ -18,7 +18,7 @@ export default function MyPagination(props) {
         }}
         count={props.count}
         variant="outlined"
-        // color="secondary"
+        color="secondary"
         onChange={(event, newPage) => {
           props.onChange(newPage);
         }}

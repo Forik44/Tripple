@@ -7,8 +7,7 @@ import Welcome from "../components/MainPageComponents/Welcome";
 import { getPagesCount } from "../components/utils/getPagesCount";
 import AccessoryList from "../components/MainPageComponents/AccessoryList";
 import { Category } from "@mui/icons-material";
-import AuthModal from "../components/AllPageComponents/AuthModal/AuthModal";
-import { Context } from "../App";
+// import { Context } from "../App";
 import { observer } from "mobx-react-lite";
 import AccessoryService from "../API/AccessoryService";
 
@@ -28,19 +27,19 @@ const MainPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   // const { store } = useContext(Context);
 
-  useEffect(() => {
-    fetchEvents();
-  }, [actualPage]);
-
   async function fetchEvents() {
-    // const response = await AccessoryService.getAccessory(limit, actualPage);
-    const response = await AccessoryService.getAllAccessory();
+    const response = await AccessoryService.getAllAccessory(limit, actualPage);
     setData(response.data);
+    console.log(response);
     setTotalCount(Number(response.headers["x-total-count"]));
     setTotalPages(
       getPagesCount(Number(response.headers["x-total-count"]), limit)
     );
   }
+  useEffect(() => {
+    fetchEvents();
+  }, [actualPage]);
+
   return (
     <>
       <Welcome />
