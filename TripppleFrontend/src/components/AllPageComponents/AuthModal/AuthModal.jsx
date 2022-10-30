@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useModal } from "../../../hooks/useModal";
 import { Container, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -29,10 +29,10 @@ export default function AuthModal() {
   const { modalOpened, closeModal } = useModal();
   const router = useNavigate();
   const onSubmit = (data) => {
-    //   store.login(data.email, data.password);
-    //   // вот это надо будет убрать, пока для тестов
-    //   localStorage.removeItem("token");
-    //   localStorage.setItem("token", "enfnfehn");
+    store.login(data.email, data.password);
+    // вот это надо будет убрать, пока для тестов
+    localStorage.removeItem("token");
+    localStorage.setItem("token", "enfnfehn");
     router("/");
     closeModal();
     reset();
@@ -117,7 +117,7 @@ export default function AuthModal() {
                 disabled={!isValid}
                 sx={loginButtonStyle}
                 type="submit"
-                color="secondary"
+                color="success"
                 size="large"
               >
                 Войти
@@ -128,7 +128,7 @@ export default function AuthModal() {
                   reset();
                 }}
                 sx={cancelButtonStyle}
-                color="secondary"
+                color="success"
                 size="large"
               >
                 Отмена

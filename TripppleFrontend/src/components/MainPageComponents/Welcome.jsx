@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
 
 const Welcome = () => {
@@ -8,10 +8,12 @@ const Welcome = () => {
         <Grid
           item
           xs={12}
-          sm={6}
+          sm={12}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          <Typography variant="h3">Комплектующие для любых целей</Typography>
+          <Typography variant="h3" color="white" align="center">
+            Комплектующие для любых целей
+          </Typography>
         </Grid>
       </Grid>
     </Container>

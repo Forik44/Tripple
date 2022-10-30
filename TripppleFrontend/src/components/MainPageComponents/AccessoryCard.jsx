@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
-import axios from "axios";
 
 export default function AccessoryCard(props) {
   const { store } = useContext(Context);
@@ -72,7 +71,7 @@ export default function AccessoryCard(props) {
               <Button
                 size="small"
                 variant="outlined"
-                color="success"
+                color="inherit"
                 onClick={() => {
                   store.isAuth ? setSave(true) : openModal();
                 }}

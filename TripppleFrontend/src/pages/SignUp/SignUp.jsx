@@ -1,12 +1,7 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
-import {
-  Controller,
-  SubmitHandler,
-  useForm,
-  useFormState,
-} from "react-hook-form";
+import { Controller, useForm, useFormState } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
 import {
@@ -29,7 +24,7 @@ const SignUp = () => {
   const acceptPasswordValidation = {
     required: "Обязательно для заполнения",
     validate: (val) => {
-      if (watch("password") != val) {
+      if (watch("password") !== val) {
         return "Пароли не совпадают";
       }
     },
@@ -52,6 +47,7 @@ const SignUp = () => {
       data.lastName,
       data.phone
     );
+    reset();
   };
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -65,7 +61,7 @@ const SignUp = () => {
           width="100%"
           id="modal-modal-title"
           color="white"
-          variant="h6"
+          variant="h5"
           component="h2"
           marginBottom={"2rem"}
         >
@@ -201,7 +197,7 @@ const SignUp = () => {
               disabled={!isValid}
               sx={continueButtonStyle}
               type="submit"
-              color="secondary"
+              color="success"
               size="large"
             >
               Продолжить
@@ -209,10 +205,11 @@ const SignUp = () => {
             <Button
               onClick={() => {
                 router("/");
+                reset();
                 window.scrollTo(0, 0);
               }}
               sx={cancelButtonStyle}
-              color="secondary"
+              color="success"
               size="large"
             >
               Отмена

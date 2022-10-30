@@ -12,13 +12,13 @@ export default function MyPagination(props) {
           mt: "2rem",
           display: "flex",
           justifyContent: "center",
-          //   "& .MuiPaginationItem-root": {
-          //     color: "white",
-          //   },
+          // "& .MuiPaginationItem-root": {
+          //   color: "white",
+          // },
         }}
         count={props.count}
         variant="outlined"
-        color="secondary"
+        color="success"
         onChange={(event, newPage) => {
           props.onChange(newPage);
         }}

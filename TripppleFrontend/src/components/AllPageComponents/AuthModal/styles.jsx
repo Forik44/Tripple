@@ -9,12 +9,12 @@ export const modalBoxStyle = {
   boxShadow: 24,
   p: 4,
   borderRadius: "20px",
+  background: "#56b37e",
 };
 export const inputStyle = {
-  background: "#1D2C4C",
-  borderRadius: "10px",
-  input: { color: "#0BFD71A8" },
-  label: { color: "#0BFD71A8" },
+  background: "white",
+  input: { color: "#8cad9b" },
+  label: { color: "success" },
 };
 export const buttonContainer = {
   marginTop: "1rem",
@@ -23,10 +23,10 @@ export const buttonContainer = {
   justifyContent: "space-around",
 };
 export const loginButtonStyle = {
-  background: "linear-gradient(to  bottom, #0CFF73, #2F70FF)",
+  background: "white",
   borderRadius: "20px",
 };
 export const cancelButtonStyle = {
-  background: "#223C8261",
+  background: "white",
   borderRadius: "20px",
 };

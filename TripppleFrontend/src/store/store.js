@@ -1,7 +1,6 @@
-import axios from "axios";
 import { makeAutoObservable } from "mobx";
 import AuthService from "../API/AuthService";
-import $api, { API_URL } from "../http";
+import $api from "../http";
 
 export default class Store {
   user = {};
@@ -47,7 +46,7 @@ export default class Store {
   }
   async getUser() {
     try {
-      const response = (await $api.get) < IUser > `/check_token`;
+      const response = await $api.get(`/check_token`);
       this.setUser(response.data);
     } catch (e) {
       console.log(e.response?.data?.message);

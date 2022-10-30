@@ -42,7 +42,6 @@ const MainPage = () => {
 
   return (
     <>
-      <Welcome />
       <Container
         disableGutters
         sx={{
@@ -52,6 +51,7 @@ const MainPage = () => {
           justifyContent: "center",
         }}
       >
+        <Welcome />
         {/* <CategoryNavigation
           value={selectCategory}
           onChange={(num) => setSelectCategory(num)}
