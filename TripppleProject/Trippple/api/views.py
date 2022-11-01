@@ -5,7 +5,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Product
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, UserSerializer
+
 
 # Create your views here.
 
@@ -77,12 +78,17 @@ from django.contrib.auth.models import User
 from .models import CustomUser
 from Trippple import settings
 from rest_framework_jwt.utils import jwt_payload_handler
+from .serializers import CurrentUserSerializer
 
 @api_view(['POST'])
 def login_user(request):
     email = request.data['email']
     password = request.data['password']
-    user = User.objects.filter(email=email, password=password)
+    serializer = CurrentUserSerializer(data=request.data)
+    if serializer.is_valid():
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     if not user:
         return Response("Takogo usera net", status=status.HTTP_400_BAD_REQUEST)
     customUser =CustomUser.objects.get(user=user.id)
