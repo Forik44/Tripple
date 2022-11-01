@@ -74,6 +74,7 @@ def getCategory(request, pk):
     return responce
 
 from django.contrib.auth.models import User
+from .models import CustomUser
 from Trippple import settings
 from rest_framework_jwt.utils import jwt_payload_handler
 
@@ -81,11 +82,11 @@ from rest_framework_jwt.utils import jwt_payload_handler
 def login_user(request):
     email = request.data['email']
     password = request.data['password']
-    user = User.objects.get(email=email, password=password)
-    if user:
-        payload = jwt_payload_handler(user)
-        token = jwt.encode(payload, settings.SECRET_KEY)
-
+    user = User.objects.filter(email=email, password=password)
+    if not user:
+        return Response("Takogo usera net", status=status.HTTP_400_BAD_REQUEST)
+    customUser =CustomUser.objects.get(user=user.id)
+    token = customUser.JWT
     user_details = {}
     user_details['name'] = "%s %s" % (user.first_name, user.last_name)
     user_details['token'] = token
@@ -101,16 +102,35 @@ def register_user(request):
     password = request.data['password']
     name = request.data['name']
     surname = request.data['surname']
+    phone = request.data['phone']
     user = User.objects.filter(email=email)
     if not user:
-        User.objects.create(email=email, password=password, first_name=name, last_name=surname)
+        User.objects.create(username=email, email=email, password=password, first_name=name, last_name=surname)
+        user = User.objects.get(email=email)
+        payload = jwt_payload_handler(user)
+        token = jwt.encode(payload, settings.SECRET_KEY)
+        CustomUser.objects.create(user=user, JWT=token, phone=phone)
+        user_details = {}
+        user_details['name'] = "%s %s" % (user.first_name, user.last_name)
+        user_details['token'] = token
+        return Response(user_details, status=status.HTTP_200_OK)
     else:
-        return Response("User yze yest")
+        return Response("User yze yest", status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.get(email=email)
-    payload = jwt_payload_handler(user)
-    token = jwt.encode(payload, settings.SECRET_KEY)
-    user_details = {}
-    user_details['name'] = "%s %s" % (user.first_name, user.last_name)
-    user_details['token'] = token
-    return Response(user_details, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def getUser(request):
+    #token = request.headers["token"]
+    token = request.data["token"]
+    user = CustomUser.objects.filter(JWT=token)
+    if user:
+        user = CustomUser.objects.get(JWT=token)
+        user_details = {}
+        user_details['name'] = "%s %s" % (user.user.first_name, user.user.last_name)
+        user_details['id'] = user.user.id
+        return Response(user_details, status=status.HTTP_200_OK)
+    else:
+        return Response("JWT is not valide", status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(status=status.HTTP_200_OK)
