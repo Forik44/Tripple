@@ -1,4 +1,7 @@
+import jwt
+from django.contrib.auth import user_logged_in
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Product
@@ -68,5 +71,46 @@ def getCategory(request, pk):
     products = Product.objects.filter(category_id=pk)[(page - 1) * limit:page * limit]
     serializer = ProductSerializer(products, many=True)
     responce = Response(serializer.data, headers={"x-total-count": len(Product.objects.filter(category_id=pk))})
-
     return responce
+
+from django.contrib.auth.models import User
+from Trippple import settings
+from rest_framework_jwt.utils import jwt_payload_handler
+
+@api_view(['POST'])
+def login_user(request):
+    email = request.data['email']
+    password = request.data['password']
+    user = User.objects.get(email=email, password=password)
+    if user:
+        payload = jwt_payload_handler(user)
+        token = jwt.encode(payload, settings.SECRET_KEY)
+
+    user_details = {}
+    user_details['name'] = "%s %s" % (user.first_name, user.last_name)
+    user_details['token'] = token
+    user_logged_in.send(sender=user.__class__, request=request, user=user)
+
+    return Response(user_details, status=status.HTTP_200_OK)
+
+
+
+@api_view(['POST'])
+def register_user(request):
+    email = request.data['email']
+    password = request.data['password']
+    name = request.data['name']
+    surname = request.data['surname']
+    user = User.objects.filter(email=email)
+    if not user:
+        User.objects.create(email=email, password=password, first_name=name, last_name=surname)
+    else:
+        return Response("User yze yest")
+
+    user = User.objects.get(email=email)
+    payload = jwt_payload_handler(user)
+    token = jwt.encode(payload, settings.SECRET_KEY)
+    user_details = {}
+    user_details['name'] = "%s %s" % (user.first_name, user.last_name)
+    user_details['token'] = token
+    return Response(user_details, status=status.HTTP_200_OK)
