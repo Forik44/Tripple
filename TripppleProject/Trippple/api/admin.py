@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from.models import Product, Category, Stock, Bucket, User, Role
+from.models import Product, Category, Stock, Bucket, CustomUser, Role
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'category_id', 'is_published')
@@ -25,9 +25,9 @@ class BucketAdmin(admin.ModelAdmin):
     search_fields = ('product_id', 'user_id')
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'surname', 'email', 'phone')
-    list_display_links = ('id', 'name', 'surname', 'email')
-    search_fields = ('id', 'name', 'surname', 'email', 'phone')
+    list_display = ('id', 'user', 'phone')
+    list_display_links = ('id', 'user')
+    search_fields = ('id', 'user', 'phone')
 
 class RoleAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
@@ -38,5 +38,5 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(Bucket, BucketAdmin)
-admin.site.register(User, UserAdmin)
+admin.site.register(CustomUser, UserAdmin)
 admin.site.register(Role, RoleAdmin)
