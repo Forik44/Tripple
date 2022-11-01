@@ -10,14 +10,14 @@ import Header from "./Header";
 const Layout = () => {
   const { store } = useContext(Context);
 
-  // useEffect(() => {
-  //   if (store.isAuth && Object.keys(store.user).length === 0) {
-  //     store.getUser();
-  //   }
-  //   if (!store.isAuth && localStorage.getItem("token")) {
-  //     store.getUser();
-  //   }
-  // }, [store.isAuth]);
+  useEffect(() => {
+    if (store.isAuth && Object.keys(store.user).length === 0) {
+      store.getUser();
+    }
+    if (!store.isAuth && localStorage.getItem("token")) {
+      store.getUser();
+    }
+  }, [store.isAuth]);
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AuthModal />
