@@ -11,10 +11,8 @@ const Layout = () => {
   const { store } = useContext(Context);
 
   useEffect(() => {
-    if (store.isAuth && Object.keys(store.user).length === 0) {
-      store.getUser();
-    }
-    if (!store.isAuth && localStorage.getItem("token")) {
+    if (localStorage.getItem("token") && Object.keys(store.user).length === 0) {
+      console.log(localStorage.getItem("token"));
       store.getUser();
     }
   }, [store.isAuth]);

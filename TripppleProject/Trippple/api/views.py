@@ -4,6 +4,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Product
 from .serializers import ProductSerializer
 
@@ -92,14 +94,21 @@ def login_user(request):
     customUser =CustomUser.objects.get(user=user.id)
     token = customUser.JWT
     user_details = {}
-    user_details['name'] = "%s %s" % (user.first_name, user.last_name)
+    user_details['name'] = "%s" % (user.first_name)
+    user_details['lastName'] = "%s" % (user.last_name)
     user_details['token'] = token
     user_logged_in.send(sender=user.__class__, request=request, user=user)
 
     return Response(user_details, status=status.HTTP_200_OK)
 
+from rest_framework_simplejwt.tokens import RefreshToken
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
 
-
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
 @api_view(['POST'])
 def register_user(request):
     email = request.data['email']
@@ -111,8 +120,9 @@ def register_user(request):
     if not user:
         User.objects.create(username=email, email=email, password=password, first_name=name, last_name=surname)
         user = User.objects.get(email=email)
-        payload = jwt_payload_handler(user)
-        token = jwt.encode(payload, settings.SECRET_KEY)
+        #payload = jwt_payload_handler(user)
+        #token = jwt.encode(payload, settings.SECRET_KEY)
+        token = get_tokens_for_user(user)['access']
         CustomUser.objects.create(user=user, JWT=token, phone=phone)
         user_details = {}
         user_details['name'] = "%s %s" % (user.first_name, user.last_name)
@@ -124,14 +134,15 @@ def register_user(request):
     return Response(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
 def getUser(request):
-    #token = request.headers["token"]
-    token = request.data["token"]
+    token = request.headers["Authorization"].split()[1]
     user = CustomUser.objects.filter(JWT=token)
     if user:
         user = CustomUser.objects.get(JWT=token)
         user_details = {}
-        user_details['name'] = "%s %s" % (user.user.first_name, user.user.last_name)
+        user_details['name'] = "%s" % (user.user.first_name)
+        user_details['lastName'] = "%s" % (user.user.last_name)
         user_details['id'] = user.user.id
         return Response(user_details, status=status.HTTP_200_OK)
     else:
