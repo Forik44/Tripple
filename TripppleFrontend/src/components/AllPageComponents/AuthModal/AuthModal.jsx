@@ -31,8 +31,8 @@ export default function AuthModal() {
   const onSubmit = (data) => {
     store.login(data.email, data.password);
     // вот это надо будет убрать, пока для тестов
-    localStorage.removeItem("token");
-    localStorage.setItem("token", "enfnfehn");
+    // localStorage.removeItem("token");
+    // localStorage.setItem("token", "enfnfehn");
     router("/");
     closeModal();
     reset();

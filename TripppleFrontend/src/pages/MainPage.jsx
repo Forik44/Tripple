@@ -30,7 +30,6 @@ const MainPage = () => {
   async function fetchEvents() {
     const response = await AccessoryService.getAllAccessory(limit, actualPage);
     setData(response.data);
-    console.log(response);
     setTotalCount(Number(response.headers["x-total-count"]));
     setTotalPages(
       getPagesCount(Number(response.headers["x-total-count"]), limit)
