@@ -45,7 +45,7 @@ class Stock(models.Model):
 class Bucket(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='ID Продукта')
     amount = models.IntegerField(verbose_name='Количество')
-    user_id = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name='ID Продукта')
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='ID Продукта')
 
     def __str__(self):
         return str(self.id)
@@ -55,20 +55,22 @@ class Bucket(models.Model):
         verbose_name_plural = 'Корзины'
         ordering = ['user_id']
 
-from django.conf import settings
-
-class CustomUser(models.Model):
-    phone = models.CharField(max_length=13, verbose_name='Телефон')
-    role = models.ForeignKey('Role', on_delete=models.CASCADE, verbose_name='Роль',default=1)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    JWT = models.CharField(max_length=300, verbose_name='JWT', blank=True)
+class User(models.Model):
+    email = models.EmailField(verbose_name='Почта пользователя')
+    phone = models.CharField(max_length = 13, verbose_name='Телефон')
+    password = models.CharField(max_length = 40, verbose_name='Пароль')
+    city = models.CharField(max_length=40, verbose_name='Город')
+    role = models.ForeignKey('Role', on_delete=models.CASCADE, verbose_name='Роль')
+    name = models.CharField(max_length=40, verbose_name='Имя')
+    surname = models.CharField(max_length=40, verbose_name='Фамилия')
+    birthday = models.DateTimeField(verbose_name='Дата рождения')
 
     def __str__(self):
         return str(self.id)
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
         ordering = ['id']
 
 class Role(models.Model):
