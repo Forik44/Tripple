@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Product
+from .models import Product, CustomUser
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -15,3 +15,7 @@ class ProductSerializer(ModelSerializer):
         model = Product
         fields = '__all__'
 
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
