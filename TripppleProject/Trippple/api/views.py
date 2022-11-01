@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Product
-from .serializers import ProductSerializer, UserSerializer
+from .serializers import ProductSerializer
 
 
 # Create your views here.
@@ -84,13 +84,11 @@ from .serializers import CurrentUserSerializer
 def login_user(request):
     email = request.data['email']
     password = request.data['password']
-    serializer = CurrentUserSerializer(data=request.data)
-    if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    user = User.objects.filter(email=email, password=password)
 
     if not user:
         return Response("Takogo usera net", status=status.HTTP_400_BAD_REQUEST)
+    user = User.objects.get(email=email)
     customUser =CustomUser.objects.get(user=user.id)
     token = customUser.JWT
     user_details = {}
@@ -107,7 +105,7 @@ def register_user(request):
     email = request.data['email']
     password = request.data['password']
     name = request.data['name']
-    surname = request.data['surname']
+    surname = request.data['lastName']
     phone = request.data['phone']
     user = User.objects.filter(email=email)
     if not user:

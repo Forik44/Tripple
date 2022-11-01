@@ -47,6 +47,7 @@ const SignUp = () => {
       data.lastName,
       data.phone
     );
+    router("/");
     reset();
   };
   return (
