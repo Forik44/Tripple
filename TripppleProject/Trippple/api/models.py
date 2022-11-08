@@ -45,7 +45,7 @@ class Stock(models.Model):
 class Bucket(models.Model):
     product_id = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='ID Продукта')
     amount = models.IntegerField(verbose_name='Количество')
-    user_id = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name='ID Продукта')
+    user_id = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name='ID пользователя')
 
     def __str__(self):
         return str(self.id)
