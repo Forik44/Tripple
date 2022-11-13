@@ -8,6 +8,7 @@ import "./App.css";
 import { ModalProvider } from "./hoc/ModalProvider";
 import Store from "./store/store";
 import { createContext } from "react";
+import { observer } from "mobx-react-lite";
 
 const store = new Store();
 export const Context = createContext({
@@ -33,4 +34,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

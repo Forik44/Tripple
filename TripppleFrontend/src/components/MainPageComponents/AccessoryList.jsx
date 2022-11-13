@@ -1,14 +1,17 @@
-import React from "react";
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import { Context } from "../../App";
 
 import AccessoryCard from "./AccessoryCard";
 
 import MyPagination from "./MyPagination";
 
-export function EventsList(props) {
+export function AccessoryList(props) {
+  const { store } = useContext(Context);
   return (
     <>
       {props.data.map((dat) => (
-        <AccessoryCard key={dat.id} data={dat} />
+        <AccessoryCard key={dat.amount + "id" + dat.id} data={dat} />
       ))}
 
       <MyPagination
@@ -22,4 +25,4 @@ export function EventsList(props) {
   );
 }
 
-export default EventsList;
+export default observer(AccessoryList);

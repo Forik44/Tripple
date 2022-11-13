@@ -6,6 +6,7 @@ from rest_framework_simplejwt.views import TokenVerifyView
 urlpatterns = [
     path('', views.getRoutes, name="routes"),
     path('shop/', views.getProducts, name="products"),
+    path('shop_user/', views.getProductsByUser, name="products"),
     path('shop/<str:pk>/', views.getProduct, name="product"),
     path('shop/category/<str:pk>/', views.getCategory, name="product"),
     path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),

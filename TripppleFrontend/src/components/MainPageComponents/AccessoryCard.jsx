@@ -16,8 +16,9 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { observer } from "mobx-react-lite";
 
-export default function AccessoryCard(props) {
+const AccessoryCard = (props) => {
   const inBucket = async () => {
     setSave(true);
     setAmount(1);
@@ -158,4 +159,5 @@ export default function AccessoryCard(props) {
       </Grid>
     </Card>
   );
-}
+};
+export default observer(AccessoryCard);

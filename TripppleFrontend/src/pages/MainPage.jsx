@@ -6,12 +6,10 @@ import { useState } from "react";
 import Welcome from "../components/MainPageComponents/Welcome";
 import { getPagesCount } from "../components/utils/getPagesCount";
 import AccessoryList from "../components/MainPageComponents/AccessoryList";
-import { Category } from "@mui/icons-material";
-// import { Context } from "../App";
 import { observer } from "mobx-react-lite";
 import AccessoryService from "../API/AccessoryService";
 import SearchPanel from "../components/MainPageComponents/SearchPanel";
-
+import { Context } from "../App";
 const MainPage = () => {
   //состояние, в котором хранится информация о всех комплектующих
   const [data, setData] = useState([]);
@@ -26,19 +24,31 @@ const MainPage = () => {
   const [limit, setLimit] = useState(4);
   //состояние, в котором хранится общее количество страниц
   const [totalPages, setTotalPages] = useState(0);
-  // const { store } = useContext(Context);
+  const { store } = useContext(Context);
 
   async function fetchEvents() {
-    const response = await AccessoryService.getAllAccessory(limit, actualPage);
-    setData(response.data);
+    let response = {};
+    if (localStorage.getItem("token")) {
+      response = await AccessoryService.getAllAccessoryByUser(
+        limit,
+        actualPage
+      );
+    } else {
+      response = await AccessoryService.getAllAccessory(limit, actualPage);
+    }
+    setData([...response.data]);
     setTotalCount(Number(response.headers["x-total-count"]));
     setTotalPages(
       getPagesCount(Number(response.headers["x-total-count"]), limit)
     );
   }
   useEffect(() => {
+    setActualPage(1);
+  }, [store.isAuth]);
+
+  useEffect(() => {
     fetchEvents();
-  }, [actualPage]);
+  }, [actualPage, store.isAuth]);
 
   return (
     <>
@@ -56,7 +66,7 @@ const MainPage = () => {
           value={selectCategory}
           onChange={(num) => setSelectCategory(num)}
         /> */}
-        <SearchPanel/>
+        <SearchPanel />
         <AccessoryList
           data={data}
           //   category={selectCategory}

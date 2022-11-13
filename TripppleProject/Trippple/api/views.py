@@ -59,23 +59,30 @@ def getProducts(request):
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):
         serializer.data[i]["isBucket"] = False
-    try:
-        token = request.headers["Authorization"].split()[1]
-        user = CustomUser.objects.get(JWT=token)
-        if(user):
-            for i in range(len(serializer.data)):
-                bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data[i]["id"])
-                if(len(bucket) > 0):
-                    serializer.data[i]["isBucket"] = True
-                    serializer.data[i]["amount"] = len(bucket)
-
-    except:
-        Response("not JWT or not user", status=status.HTTP_400_OK)
-    finally:
-        responce = Response(serializer.data)
-        responce["x-total-count"] = len(Product.objects.all())
-        return responce
-
+        serializer.data[i]["amount"] = 0
+    responce = Response(serializer.data)
+    responce["x-total-count"] = len(Product.objects.all())
+    return responce
+@api_view(['GET'])
+def getProductsByUser(request):
+    limit = int(request.query_params.get('_limit'))
+    page = int(request.query_params.get('_page'))
+    products = Product.objects.all()[(page-1)*limit:page*limit]
+    serializer = ProductSerializer(products, many=True)
+    for i in range(len(serializer.data)):
+        serializer.data[i]["isBucket"] = False
+        serializer.data[i]["amount"] = 0
+    token = request.headers["Authorization"].split()[1]
+    user = CustomUser.objects.get(JWT=token)
+    if(user):
+        for i in range(len(serializer.data)):
+            bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data[i]["id"])
+            if(len(bucket) > 0):
+                serializer.data[i]["isBucket"] = True
+                serializer.data[i]["amount"] = len(bucket)
+    responce = Response(serializer.data)
+    responce["x-total-count"] = len(Product.objects.all())
+    return responce
 
 @api_view(['GET'])
 def getProduct(request, pk):
