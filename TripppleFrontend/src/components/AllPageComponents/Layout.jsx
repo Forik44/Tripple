@@ -12,7 +12,6 @@ const Layout = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token") && Object.keys(store.user).length === 0) {
-      console.log(localStorage.getItem("token"));
       store.getUser();
     }
   }, [store.isAuth]);

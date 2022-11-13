@@ -8,12 +8,26 @@ import {
   CardActions,
   Button,
   Grid,
+  Stack,
+  Box,
+  TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function AccessoryCard(props) {
+  const inBucket = () => {
+    setSave(true);
+    setAmount(1);
+  };
+  const RemoveItemFromBucket = () => {
+    setSave(false);
+    setAmount(0);
+  };
   const { store } = useContext(Context);
+  const [amount, setAmount] = useState(0);
   const { openModal } = useModal();
   const [save, setSave] = useState(props.data.save);
   const [color, setColor] = useState("white");
@@ -28,6 +42,7 @@ export default function AccessoryCard(props) {
         mr: "1rem",
         mt: "1rem",
         background: "#2C427375",
+        borderRadius: "20px",
       }}
     >
       <Grid container sx={{ alignItems: "center" }}>
@@ -66,29 +81,72 @@ export default function AccessoryCard(props) {
           </CardContent>
         </Grid>
         <Grid item xs={12} sm={3} display="flex">
-          <CardActions>
+          <CardActions
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             {!save ? (
               <Button
                 size="small"
                 variant="outlined"
                 color="inherit"
                 onClick={() => {
-                  store.isAuth ? setSave(true) : openModal();
+                  store.isAuth ? inBucket() : openModal();
                 }}
               >
                 В корзину
               </Button>
             ) : (
-              <Button
-                size="small"
-                variant="outlined"
-                color="warning"
-                onClick={() => {
-                  setSave(false);
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                Убрать из корзины
-              </Button>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  sx={{ mb: "0.5rem" }}
+                >
+                  <Button
+                    disableRipple
+                    onClick={() => {
+                      amount == 1
+                        ? RemoveItemFromBucket()
+                        : setAmount(amount - 1);
+                    }}
+                  >
+                    <RemoveIcon sx={{ color: "white" }} />
+                  </Button>
+                  <span>{amount}</span>
+                  <Button
+                    disableRipple
+                    onClick={() => {
+                      if (amount < 9) {
+                        setAmount(amount + 1);
+                      }
+                    }}
+                  >
+                    <AddIcon sx={{ color: "white" }} />
+                  </Button>
+                </Stack>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => {
+                    setSave(false);
+                  }}
+                >
+                  Убрать из корзины
+                </Button>
+              </Box>
             )}
           </CardActions>
         </Grid>

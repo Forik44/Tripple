@@ -71,10 +71,11 @@ def getProducts(request):
 
     except:
         Response("not JWT or not user", status=status.HTTP_400_OK)
+    finally:
+        responce = Response(serializer.data)
+        responce["x-total-count"] = len(Product.objects.all())
+        return responce
 
-    responce = Response(serializer.data)
-    responce["x-total-count"] = len(Product.objects.all())
-    return responce
 
 @api_view(['GET'])
 def getProduct(request, pk):
@@ -170,13 +171,14 @@ def addBucket(request):
     try:
         token = request.headers["Authorization"].split()[1]
         user = CustomUser.objects.get(JWT=token)
-        amount = request.data['amount']
+        amount = 1
         product_id = request.data['product_id']
         Bucket.objects.create(user_id=user.id, amount=amount, product_id=product_id)
+        return Response(status=status.HTTP_200_OK)
     except:
-        Response("not JWT or not user", status=status.HTTP_400_OK)
+        return Response("not JWT or not user", status=status.HTTP_400_OK)
 
-    return Response(status=status.HTTP_200_OK)
+
 
 
 @api_view(['DELETE'])
@@ -185,10 +187,11 @@ def deleteBucket(request):
         token = request.headers["Authorization"].split()[1]
         user = CustomUser.objects.get(JWT=token)
         Bucket.objects.delete(user_id=user.id)
+        return Response(status=status.HTTP_200_OK)
     except:
-        Response("not JWT or not user", status=status.HTTP_400_OK)
+        return Response("not JWT or not user", status=status.HTTP_400_OK)
 
-    return Response(status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def changeAmountBucket(request):
@@ -203,6 +206,7 @@ def changeAmountBucket(request):
     except:
         Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
 
-    return Response(status=status.HTTP_200_OK)
+    finally:
+        return Response(status=status.HTTP_200_OK)
 
 
