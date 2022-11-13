@@ -10,6 +10,7 @@ import { Category } from "@mui/icons-material";
 // import { Context } from "../App";
 import { observer } from "mobx-react-lite";
 import AccessoryService from "../API/AccessoryService";
+import SearchPanel from "../components/MainPageComponents/SearchPanel";
 
 const MainPage = () => {
   //состояние, в котором хранится информация о всех комплектующих
@@ -55,6 +56,7 @@ const MainPage = () => {
           value={selectCategory}
           onChange={(num) => setSelectCategory(num)}
         /> */}
+        <SearchPanel/>
         <AccessoryList
           data={data}
           //   category={selectCategory}
