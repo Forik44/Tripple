@@ -18,18 +18,27 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function AccessoryCard(props) {
-  const inBucket = () => {
+  const inBucket = async () => {
     setSave(true);
     setAmount(1);
+    await store.appendBucketItem(props.data.id);
   };
-  const RemoveItemFromBucket = () => {
+  const ChangeAmount = async (count) => {
+    let new_amount = amount + count;
+    setAmount(new_amount);
+    await store.changeAmountInBucket(props.data.id, new_amount);
+  };
+  const RemoveItemFromBucket = async () => {
     setSave(false);
     setAmount(0);
+    await store.deleteBucketItem(props.data.id);
   };
   const { store } = useContext(Context);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(
+    props.data.amount ? props.data.amount : 0
+  );
   const { openModal } = useModal();
-  const [save, setSave] = useState(props.data.save);
+  const [save, setSave] = useState(props.data.isBucket);
   const [color, setColor] = useState("white");
   const router = useNavigate();
 
@@ -117,9 +126,7 @@ export default function AccessoryCard(props) {
                   <Button
                     disableRipple
                     onClick={() => {
-                      amount == 1
-                        ? RemoveItemFromBucket()
-                        : setAmount(amount - 1);
+                      amount == 1 ? RemoveItemFromBucket() : ChangeAmount(-1);
                     }}
                   >
                     <RemoveIcon sx={{ color: "white" }} />
@@ -129,7 +136,7 @@ export default function AccessoryCard(props) {
                     disableRipple
                     onClick={() => {
                       if (amount < 9) {
-                        setAmount(amount + 1);
+                        ChangeAmount(1);
                       }
                     }}
                   >
@@ -140,9 +147,7 @@ export default function AccessoryCard(props) {
                   size="small"
                   variant="outlined"
                   color="warning"
-                  onClick={() => {
-                    setSave(false);
-                  }}
+                  onClick={() => RemoveItemFromBucket()}
                 >
                   Убрать из корзины
                 </Button>

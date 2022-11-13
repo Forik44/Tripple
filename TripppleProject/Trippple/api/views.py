@@ -173,26 +173,31 @@ def getUser(request):
 def addBucket(request):
     try:
         token = request.headers["Authorization"].split()[1]
-        user = CustomUser.objects.get(JWT=token)
-        amount = 1
-        product_id = request.data['product_id']
-        Bucket.objects.create(user_id=user.id, amount=amount, product_id=product_id)
-        return Response(status=status.HTTP_200_OK)
+        user = CustomUser.objects.filter(JWT=token)
+        if user:
+            user = CustomUser.objects.get(JWT=token)
+            amount = 1
+            product_id = request.data["product_id"]
+            product = Product.objects.get(id=product_id)
+            Bucket.objects.create(user_id=user, amount=amount, product_id=product)
+            return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user", status=status.HTTP_400_OK)
+        return Response("not JWT or not user", status=status.HTTP_400_BAD_REQUEST)
 
 
 
 
-@api_view(['DELETE'])
+@api_view(['POST'])
 def deleteBucket(request):
     try:
         token = request.headers["Authorization"].split()[1]
         user = CustomUser.objects.get(JWT=token)
-        Bucket.objects.delete(user_id=user.id)
+        product_id = request.data["product_id"]
+        product = Product.objects.get(id=product_id)
+        Bucket.objects.get(user_id=user,product_id=product).delete()
         return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user", status=status.HTTP_400_OK)
+        return Response("not JWT or not user", status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -203,13 +208,15 @@ def changeAmountBucket(request):
         user = CustomUser.objects.get(JWT=token)
         amount = request.data['amount']
         product_id = request.data['product_id']
-        bucket = Bucket.objects.get(user_id=user.id, product_id=product_id)
+        product = Product.objects.get(id=product_id)
+        bucket = Bucket.objects.get(user_id=user, product_id=product)
         bucket.amount = amount
         bucket.save(update_fields=["amount"])
-    except:
-        Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
-
-    finally:
         return Response(status=status.HTTP_200_OK)
+    except:
+        return Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
+
+
+
 
 

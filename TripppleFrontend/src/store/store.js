@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import AuthService from "../API/AuthService";
-import $user_api from "../user_http";
+import UserService from "../API/UserService";
 
 export default class Store {
   user = {};
@@ -15,6 +15,20 @@ export default class Store {
   setUser(user) {
     this.user = user;
   }
+  async appendBucketItem(id) {
+    this.user.bucket.push({ id: id, amount: 1 });
+    await UserService.addToBucket(id);
+  }
+  async deleteBucketItem(id) {
+    this.user.bucket = this.user.bucket.filter((inf) => inf["id"] != id);
+    await UserService.deleteFromBucket(id);
+  }
+  async changeAmountInBucket(id, amount) {
+    let index = this.user.bucket.findIndex((obj) => obj.id == id);
+    this.user.bucket[index].amount = amount;
+    await UserService.changeAmountItem(id, amount);
+  }
+
   async login(email, password) {
     try {
       const response = await AuthService.login(email, password);
@@ -47,7 +61,7 @@ export default class Store {
   }
   async getUser() {
     try {
-      const response = await $user_api.post(`/check_token`);
+      const response = await UserService.getuser();
       this.setUser(response.data);
       this.setAuth(true);
     } catch (e) {
