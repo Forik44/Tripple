@@ -96,7 +96,7 @@ from django.contrib.auth.models import User
 from .models import CustomUser
 from Trippple import settings
 from rest_framework_jwt.utils import jwt_payload_handler
-from .serializers import CurrentUserSerializer
+from .serializers import CurrentUserSerializer, BucketSerializer
 
 @api_view(['POST'])
 def login_user(request):
@@ -156,10 +156,13 @@ def getUser(request):
     user = CustomUser.objects.filter(JWT=token)
     if user:
         user = CustomUser.objects.get(JWT=token)
+        bucket = Bucket.objects.filter(user_id=user.id)
+        serializer = BucketSerializer(bucket, many=True)
         user_details = {}
         user_details['name'] = "%s" % (user.user.first_name)
         user_details['lastName'] = "%s" % (user.user.last_name)
         user_details['id'] = user.user.id
+        user_details['bucket'] = serializer.data
         return Response(user_details, status=status.HTTP_200_OK)
     else:
         return Response("JWT is not valide", status=status.HTTP_400_BAD_REQUEST)
