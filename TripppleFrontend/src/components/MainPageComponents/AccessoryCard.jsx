@@ -24,11 +24,11 @@ const AccessoryCard = (props) => {
     setAmount(1);
     await store.appendBucketItem(props.data.id);
   };
-  const ChangeAmount = async (count) => {
+  async function ChangeAmount(count) {
     let new_amount = amount + count;
     setAmount(new_amount);
     await store.changeAmountInBucket(props.data.id, new_amount);
-  };
+  }
   const RemoveItemFromBucket = async () => {
     setSave(false);
     setAmount(0);

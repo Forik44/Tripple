@@ -43,12 +43,23 @@ const MainPage = () => {
     );
   }
   useEffect(() => {
+    if (actualPage == 1) {
+      if (!store.isAuth) {
+        setData(
+          data.map((item) => {
+            return { ...item, isBucket: false, amount: 0 };
+          })
+        );
+      } else {
+        fetchEvents();
+      }
+    }
     setActualPage(1);
   }, [store.isAuth]);
 
   useEffect(() => {
     fetchEvents();
-  }, [actualPage, store.isAuth]);
+  }, [actualPage]);
 
   return (
     <>
@@ -62,14 +73,9 @@ const MainPage = () => {
         }}
       >
         <Welcome />
-        {/* <CategoryNavigation
-          value={selectCategory}
-          onChange={(num) => setSelectCategory(num)}
-        /> */}
         <SearchPanel />
         <AccessoryList
           data={data}
-          //   category={selectCategory}
           actualPage={actualPage}
           setActualPage={setActualPage}
           totalPages={totalPages}

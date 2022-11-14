@@ -78,8 +78,9 @@ def getProductsByUser(request):
         for i in range(len(serializer.data)):
             bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data[i]["id"])
             if(len(bucket) > 0):
+                bucket = Bucket.objects.get(user_id=user.id, product_id=serializer.data[i]["id"])
                 serializer.data[i]["isBucket"] = True
-                serializer.data[i]["amount"] = len(bucket)
+                serializer.data[i]["amount"] = bucket.amount
     responce = Response(serializer.data)
     responce["x-total-count"] = len(Product.objects.all())
     return responce
