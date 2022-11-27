@@ -80,3 +80,33 @@ class ConnectionsTypes(models.Model):
         verbose_name = 'Тип интерфейса подключения'
         verbose_name_plural = 'Типы интерфейса подключения'
         ordering = ['title']
+
+class Motherboard(models.Model):
+    manufacturer = models.CharField(max_length=150, db_index=True, verbose_name='Производитель')
+    MBmodel = models.CharField(max_length=150, db_index=True, verbose_name='Модель')
+    socket_id = models.ForeignKey('Socket', on_delete=models.CASCADE, verbose_name='ID Сокета')
+    chipset_id = models.ForeignKey('Chipset', on_delete=models.CASCADE, verbose_name='ID Чипсета')
+    countslotsRAM = models.IntegerField(verbose_name='Количество слотов памяти')
+    maxAmountRAM = models.IntegerField(verbose_name='Максимальный объем памяти')
+    RAMtype = models.ForeignKey('MemoryTypes', on_delete=models.CASCADE, verbose_name='ID типа памяти', blank=True)
+    connectiontype = models.ForeignKey('ConnectionsTypes', on_delete=models.CASCADE, verbose_name='Интерфейс подключения')
+    is_SSD = models.BooleanField(verbose_name='Have SSD?')
+
+    def __str__(self):
+        return self.MBmodel
+
+    class Meta:
+        verbose_name = 'Материнская плата'
+        verbose_name_plural = 'Материнские платы'
+        ordering = ['MBmodel']
+
+class Chipset(models.Model):
+    title = models.CharField(max_length=150, db_index=True, verbose_name='Чипсет')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Чипсет'
+        verbose_name_plural = 'Чипсет'
+        ordering = ['title']

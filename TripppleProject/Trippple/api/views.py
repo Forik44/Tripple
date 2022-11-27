@@ -59,31 +59,23 @@ def getProducts(request):
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):
         serializer.data[i]["isBucket"] = False
-        serializer.data[i]["amount"] = 0
-    responce = Response(serializer.data)
-    responce["x-total-count"] = len(Product.objects.all())
-    return responce
-@api_view(['GET'])
-def getProductsByUser(request):
-    limit = int(request.query_params.get('_limit'))
-    page = int(request.query_params.get('_page'))
-    products = Product.objects.all()[(page-1)*limit:page*limit]
-    serializer = ProductSerializer(products, many=True)
-    for i in range(len(serializer.data)):
-        serializer.data[i]["isBucket"] = False
-        serializer.data[i]["amount"] = 0
-    token = request.headers["Authorization"].split()[1]
-    user = CustomUser.objects.get(JWT=token)
-    if(user):
-        for i in range(len(serializer.data)):
-            bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data[i]["id"])
-            if(len(bucket) > 0):
-                bucket = Bucket.objects.get(user_id=user.id, product_id=serializer.data[i]["id"])
-                serializer.data[i]["isBucket"] = True
-                serializer.data[i]["amount"] = bucket.amount
-    responce = Response(serializer.data)
-    responce["x-total-count"] = len(Product.objects.all())
-    return responce
+    try:
+        token = request.headers["Authorization"].split()[1]
+        user = CustomUser.objects.get(JWT=token)
+        if(user):
+            for i in range(len(serializer.data)):
+                bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data[i]["id"])
+                if(len(bucket) > 0):
+                    serializer.data[i]["isBucket"] = True
+                    serializer.data[i]["amount"] = len(bucket)
+
+    except:
+        Response("not JWT or not user", status=status.HTTP_400_OK)
+    finally:
+        responce = Response(serializer.data)
+        responce["x-total-count"] = len(Product.objects.all())
+        return responce
+
 
 @api_view(['GET'])
 def getProduct(request, pk):
@@ -182,31 +174,26 @@ def getUser(request):
 def addBucket(request):
     try:
         token = request.headers["Authorization"].split()[1]
-        user = CustomUser.objects.filter(JWT=token)
-        if user:
-            user = CustomUser.objects.get(JWT=token)
-            amount = 1
-            product_id = request.data["product_id"]
-            product = Product.objects.get(id=product_id)
-            Bucket.objects.create(user_id=user, amount=amount, product_id=product)
-            return Response(status=status.HTTP_200_OK)
+        user = CustomUser.objects.get(JWT=token)
+        amount = 1
+        product_id = request.data['product_id']
+        Bucket.objects.create(user_id=user.id, amount=amount, product_id=product_id)
+        return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user", status=status.HTTP_400_BAD_REQUEST)
+        return Response("not JWT or not user", status=status.HTTP_400_OK)
 
 
 
 
-@api_view(['POST'])
+@api_view(['DELETE'])
 def deleteBucket(request):
     try:
         token = request.headers["Authorization"].split()[1]
         user = CustomUser.objects.get(JWT=token)
-        product_id = request.data["product_id"]
-        product = Product.objects.get(id=product_id)
-        Bucket.objects.get(user_id=user,product_id=product).delete()
+        Bucket.objects.delete(user_id=user.id)
         return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user", status=status.HTTP_400_BAD_REQUEST)
+        return Response("not JWT or not user", status=status.HTTP_400_OK)
 
 
 
@@ -217,15 +204,13 @@ def changeAmountBucket(request):
         user = CustomUser.objects.get(JWT=token)
         amount = request.data['amount']
         product_id = request.data['product_id']
-        product = Product.objects.get(id=product_id)
-        bucket = Bucket.objects.get(user_id=user, product_id=product)
+        bucket = Bucket.objects.get(user_id=user.id, product_id=product_id)
         bucket.amount = amount
         bucket.save(update_fields=["amount"])
-        return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
+        Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
 
-
-
+    finally:
+        return Response(status=status.HTTP_200_OK)
 
 
