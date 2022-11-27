@@ -5,6 +5,7 @@ class CPUSerializer(ModelSerializer):
     class Meta:
         model = CPU
         fields = '__all__'
+        
 
 class GPUSerializer(ModelSerializer):
     class Meta:

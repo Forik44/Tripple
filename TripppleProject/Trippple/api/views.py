@@ -90,6 +90,7 @@ def getProduct(request, pk):
     products = Product.objects.get(id=pk)
     serializer = ProductSerializer(products, many=False)
     return Response(serializer.data)
+    
 
 @api_view(['GET'])
 def getCategory(request, pk):
