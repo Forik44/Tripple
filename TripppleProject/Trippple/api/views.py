@@ -82,7 +82,11 @@ def getProductsByUser(request):
     page = int(request.query_params.get('_page'))
     searchValue = unquote(request.query_params.get('_searchValue'));
     if searchValue:
-        products = Product.objects.filter(title__icontains= searchValue.lower());
+        products = Product.objects.filter(title__icontains= searchValue.lower())
+    else:
+        products = Product.objects.all()
+
+    size = len(products)
     products = products[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):

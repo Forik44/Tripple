@@ -11,8 +11,11 @@ const SearchPanel = (props) => {
         placeholder: { color: "white" },
         "& fieldset": { border: "none" },
       }}
-      value = {props.value}
-      onChange={(e)=>{props.onChange(e.target.value);console.log(e.target.value)}}
+      value={props.value}
+      onChange={(e) => {
+        props.onChange(e.target.value);
+        console.log(e.target.value);
+      }}
       id="outlined-basic"
       placeholder="Поиск..."
       variant="outlined"

@@ -26,8 +26,8 @@ const MainPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const { store } = useContext(Context);
 
-  const [searchValue, setSearchValue] = useState('');
-  const [searchTempValue, setSearchTempValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
+  const [searchTempValue, setSearchTempValue] = useState("");
 
   async function fetchEvents() {
     let response = {};
@@ -63,8 +63,8 @@ const MainPage = () => {
       }
     }
     setActualPage(1);
-    setSearchTempValue('');
-    setSearchValue('');
+    setSearchTempValue("");
+    setSearchValue("");
   }, [store.isAuth]);
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const MainPage = () => {
       <Container
         disableGutters
         sx={{
+          px: "1rem",
           mb: "1rem",
           display: "flex",
           flexDirection: "column",
@@ -83,27 +84,42 @@ const MainPage = () => {
         }}
       >
         <Welcome />
-        <Grid container sx={{ mx: "1rem" }}>
-          <Grid item xs={11}>
-            <SearchPanel value ={searchTempValue} onChange={(str)=>setSearchTempValue(str)} />
+        <Grid container sx={{ mx: "1rem", width: "98%" }}>
+          <Grid
+            item
+            xs={12}
+            md={11}
+            display="flex"
+            alignItems="center"
+            sx={{ my: "1rem" }}
+          >
+            <SearchPanel
+              value={searchTempValue}
+              onChange={(str) => setSearchTempValue(str)}
+            />
           </Grid>
           <Grid
             item
-            xs={1}
+            xs={12}
+            md={1}
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              // mr: "1rem",
             }}
           >
-            <Button 
-              sx ={{
-                
+            <Button
+              size="small"
+              color="success"
+              onClick={() => {
+                setSearchValue(searchTempValue);
+                setActualPage(1);
               }}
-              color = "success"
-              onClick = {() => {setSearchValue(searchTempValue);setActualPage(1)}}
-              variant = "outlined">
-              Найти</Button>
+              variant="outlined"
+            >
+              Найти
+            </Button>
           </Grid>
         </Grid>
 
