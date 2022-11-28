@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "../App.css";
-import { Container } from "@mui/material";
+import { Container, Button, Grid } from "@mui/material";
 import { useState } from "react";
 // import { CategoryNavigation } from "../components/MainPageComponents/CategoryNavigation";
 import Welcome from "../components/MainPageComponents/Welcome";
@@ -73,7 +73,23 @@ const MainPage = () => {
         }}
       >
         <Welcome />
-        <SearchPanel />
+        <Grid container sx={{ mx: "1rem" }}>
+          <Grid item xs={11}>
+            <SearchPanel />
+          </Grid>
+          <Grid
+            item
+            xs={1}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button>Найти</Button>
+          </Grid>
+        </Grid>
+
         <AccessoryList
           data={data}
           actualPage={actualPage}

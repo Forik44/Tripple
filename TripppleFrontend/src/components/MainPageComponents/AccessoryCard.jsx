@@ -40,7 +40,7 @@ const AccessoryCard = (props) => {
   );
   const { openModal } = useModal();
   const [save, setSave] = useState(props.data.isBucket);
-  const [color, setColor] = useState("white");
+  const [color, setColor] = useState("#66FCF1");
   const router = useNavigate();
 
   return (
@@ -51,7 +51,7 @@ const AccessoryCard = (props) => {
         ml: "1rem",
         mr: "1rem",
         mt: "1rem",
-        background: "#2C427375",
+        background: "#1F2833",
         borderRadius: "20px",
       }}
     >
@@ -76,7 +76,7 @@ const AccessoryCard = (props) => {
                 setColor("black");
               }}
               onMouseLeave={() => {
-                setColor("white");
+                setColor("#66FCF1");
               }}
               onClick={() => {
                 router(`/shop/${props.data.id}`);
@@ -85,7 +85,7 @@ const AccessoryCard = (props) => {
             >
               {props.data.title}
             </Typography>
-            <Typography variant="body2" color="#0BFD71">
+            <Typography variant="body2" color="#45A29E">
               {props.data.content}
             </Typography>
           </CardContent>
@@ -103,7 +103,7 @@ const AccessoryCard = (props) => {
               <Button
                 size="small"
                 variant="outlined"
-                color="inherit"
+                sx={{ color: "#66FCF1" }}
                 onClick={() => {
                   store.isAuth ? inBucket() : openModal();
                 }}
@@ -126,28 +126,30 @@ const AccessoryCard = (props) => {
                 >
                   <Button
                     disableRipple
+                    variant="raised"
                     onClick={() => {
                       amount == 1 ? RemoveItemFromBucket() : ChangeAmount(-1);
                     }}
                   >
-                    <RemoveIcon sx={{ color: "white" }} />
+                    <RemoveIcon sx={{ color: "#66FCF1" }} />
                   </Button>
-                  <span>{amount}</span>
+                  <span style={{ color: "#66FCF1" }}>{amount}</span>
                   <Button
                     disableRipple
+                    variant="raised"
                     onClick={() => {
                       if (amount < 9) {
                         ChangeAmount(1);
                       }
                     }}
                   >
-                    <AddIcon sx={{ color: "white" }} />
+                    <AddIcon sx={{ color: "#66FCF1" }} />
                   </Button>
                 </Stack>
                 <Button
                   size="small"
-                  variant="outlined"
-                  color="warning"
+                  variant="raised"
+                  sx={{ color: "red" }}
                   onClick={() => RemoveItemFromBucket()}
                 >
                   Убрать из корзины

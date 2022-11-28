@@ -11,7 +11,7 @@ const Welcome = () => {
           sm={12}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          <Typography variant="h3" color="white" align="center">
+          <Typography variant="h3" color="#66FCF1" align="center">
             Комплектующие для любых целей
           </Typography>
         </Grid>

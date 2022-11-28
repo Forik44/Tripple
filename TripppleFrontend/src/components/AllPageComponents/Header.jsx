@@ -12,16 +12,18 @@ const Header = () => {
   const { openModal } = useModal();
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#2C427375" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#0b0c10" }}>
       <Toolbar>
         <Grid container>
           <Grid item xs={6} sm={7} md={9}>
             <Box sx={{ textAlign: "left", m: 1, mt: 1.5 }}>
               {/* кнопка-логотип */}
               <Button
-                color="inherit"
+                // color="inherit"
                 size="large"
-                sx={{ ml: "3rem" }}
+                disableRipple
+                variant="raised"
+                sx={{ ml: "3rem", color: "#66FCF1" }}
                 onClick={() => {
                   router("/");
                 }}
@@ -40,11 +42,19 @@ const Header = () => {
               justifyContent={"center"}
             >
               {/* кнопка входа */}
-              <Button color="inherit" size="large" onClick={openModal}>
+              <Button
+                disableRipple
+                sx={{ color: "#66FCF1" }}
+                size="large"
+                variant="raised"
+                onClick={openModal}
+              >
                 Войти
               </Button>
               <Button
-                color="inherit"
+                disableRipple
+                variant="raised"
+                sx={{ color: "#66FCF1" }}
                 size="large"
                 onClick={() => {
                   router("/sign-up");
@@ -62,10 +72,14 @@ const Header = () => {
               display="flex"
               justifyContent={"center"}
             >
-              <Box sx={{ textAlign: "center", m: 1, mt: 1.5 }}>
+              <Box
+                sx={{ textAlign: "center", m: 1, mt: 1.5, color: "#66FCF1" }}
+              >
                 {store.user.name} {store.user.lastName}
                 <Button
-                  color="warning"
+                  disableRipple
+                  sx={{ color: "red" }}
+                  variant="raised"
                   size="large"
                   onClick={() => {
                     store.logout();
