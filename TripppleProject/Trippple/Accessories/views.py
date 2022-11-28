@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import CPU, GPU
-from .serializers import CPUSerializer, GPUSerializer
+from .models import CPU, GPU, Motherboard, Socket
+from .serializers import CPUSerializer, GPUSerializer, MBSerializer
 
 # Create your views here.
 
@@ -49,11 +49,51 @@ def getCategoryItem(request, category_id, pk):
     if(category_id == "1"):
         products = CPU.objects.get(id=pk)
         serializer = CPUSerializer(products, many=False)
-        return Response(serializer.data)
+        Res = serializer.data
+        Res['socket'] = {
+                'value': products.socket_id.title,
+                'verbose_name': 'Сокет',
+        }
+        Res['RAMtype'] = {
+            'value': products.RAMtype.title,
+            'verbose_name': 'Тип оперативной памяти',
+        }
+        return Response(Res)
 
     if (category_id == "2"):
         products = GPU.objects.get(id=pk)
         serializer = GPUSerializer(products, many=False)
-        return Response(serializer.data)
+        Res = serializer.data
+        Res['typememory'] = {
+            'value': products.typememory_id.title,
+            'verbose_name': 'Тип видеопамяти',
+        }
+        Res['connectiontype'] = {
+            'value': products.connectiontype.title,
+            'verbose_name': 'Интерфейс подключения',
+        }
+        return Response(Res)
+
+    if (category_id == "3"):
+        products = Motherboard.objects.get(id=pk)
+        serializer = MBSerializer(products, many=False)
+        Res = serializer.data
+        Res['socket'] = {
+            'value': products.socket_id.title,
+            'verbose_name': 'Сокет',
+        }
+        Res['chipset'] = {
+            'value': products.chipset_id.title,
+            'verbose_name': 'Чипсет',
+        }
+        Res['RAMtype'] = {
+            'value': products.RAMtype.title,
+            'verbose_name': 'Тип оперативной памяти',
+        }
+        Res['connectiontype'] = {
+            'value': products.connectiontype.title,
+            'verbose_name': 'Интерфейс подключения видеокарты',
+        }
+        return Response(Res)
 
     return Response()
