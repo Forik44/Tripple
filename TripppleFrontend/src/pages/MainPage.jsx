@@ -26,15 +26,19 @@ const MainPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const { store } = useContext(Context);
 
+  const [searchValue, setSearchValue] = useState();
+  const [searchTempValue, setSearchTempValue] = useState();
+
   async function fetchEvents() {
     let response = {};
     if (localStorage.getItem("token")) {
       response = await AccessoryService.getAllAccessoryByUser(
         limit,
-        actualPage
+        actualPage,
+        searchValue
       );
     } else {
-      response = await AccessoryService.getAllAccessory(limit, actualPage);
+      response = await AccessoryService.getAllAccessory(limit, actualPage, searchValue);
     }
     setData([...response.data]);
     setTotalCount(Number(response.headers["x-total-count"]));
@@ -59,7 +63,7 @@ const MainPage = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [actualPage]);
+  }, [actualPage, searchValue]);
 
   return (
     <>
@@ -73,7 +77,9 @@ const MainPage = () => {
         }}
       >
         <Welcome />
-        <SearchPanel />
+        <SearchPanel 
+          value = {searchTempValue}
+          onChange = {(str)=>setSearchTempValue(str)}/>
         <AccessoryList
           data={data}
           actualPage={actualPage}

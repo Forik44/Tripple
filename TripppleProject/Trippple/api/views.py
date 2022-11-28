@@ -51,11 +51,18 @@ def getRoutes(request):
 
 from django.http import JsonResponse
 
+def searchProduct(product, str):
+    if str.lower() in product.title.lower():
+        return True
+    else:
+        return False
+
 @api_view(['GET'])
 def getProducts(request):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-    products = Product.objects.all()[(page-1)*limit:page*limit]
+    products = Product.objects.filter(title__icontains= request.query_params.get('_searchValue'));
+    products = products[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):
         serializer.data[i]["isBucket"] = False
@@ -63,11 +70,15 @@ def getProducts(request):
     responce = Response(serializer.data)
     responce["x-total-count"] = len(Product.objects.all())
     return responce
+
+
+
 @api_view(['GET'])
 def getProductsByUser(request):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-    products = Product.objects.all()[(page-1)*limit:page*limit]
+    products = Product.objects.filter(title__icontains= request.query_params.get('_searchValue'));
+    products = products[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):
         serializer.data[i]["isBucket"] = False
