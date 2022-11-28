@@ -50,25 +50,28 @@ def getRoutes(request):
     return Response(routes)
 
 from django.http import JsonResponse
-
-def searchProduct(product, str):
-    if str.lower() in product.title.lower():
-        return True
-    else:
-        return False
+from urllib.parse import unquote
 
 @api_view(['GET'])
 def getProducts(request):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-    products = Product.objects.filter(title__icontains= request.query_params.get('_searchValue'));
+
+    searchValue = unquote(request.query_params.get('_searchValue'));
+    
+    if searchValue:
+        products = Product.objects.filter(title__icontains= searchValue.lower())
+    else:
+        products = Product.objects.all()
+
+    size = len(products)
     products = products[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):
         serializer.data[i]["isBucket"] = False
         serializer.data[i]["amount"] = 0
     responce = Response(serializer.data)
-    responce["x-total-count"] = len(Product.objects.all())
+    responce["x-total-count"] = size
     return responce
 
 
@@ -77,7 +80,9 @@ def getProducts(request):
 def getProductsByUser(request):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-    products = Product.objects.filter(title__icontains= request.query_params.get('_searchValue'));
+    searchValue = unquote(request.query_params.get('_searchValue'));
+    if searchValue:
+        products = Product.objects.filter(title__icontains= searchValue.lower());
     products = products[(page-1)*limit:page*limit]
     serializer = ProductSerializer(products, many=True)
     for i in range(len(serializer.data)):

@@ -1,6 +1,6 @@
 import { TextField, Container, Typography } from "@mui/material";
 
-const SearchPanel = () => {
+const SearchPanel = (props) => {
   return (
     <TextField
       sx={{
@@ -11,6 +11,8 @@ const SearchPanel = () => {
         placeholder: { color: "white" },
         "& fieldset": { border: "none" },
       }}
+      value = {props.value}
+      onChange={(e)=>{props.onChange(e.target.value);console.log(e.target.value)}}
       id="outlined-basic"
       placeholder="Поиск..."
       variant="outlined"

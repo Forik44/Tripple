@@ -1,7 +1,7 @@
 import axios from "axios";
 import $user_api from "../user_http";
 export default class AccessoryService {
-  static async getAllAccessoryByUser(_limit, _page) {
+  static async getAllAccessoryByUser(_limit, _page, _searchValue) {
     try {
       const response = await $user_api.get("/shop_user/", {
         params: {
@@ -15,7 +15,7 @@ export default class AccessoryService {
       throw err;
     }
   }
-  static async getAllAccessory(_limit, _page) {
+  static async getAllAccessory(_limit, _page, _searchValue) {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/shop/", {
         params: {

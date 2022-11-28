@@ -103,7 +103,8 @@ const AccessoryCard = (props) => {
               <Button
                 size="small"
                 variant="outlined"
-                sx={{ color: "#66FCF1" }}
+                sx={{}}
+                color = "success"
                 onClick={() => {
                   store.isAuth ? inBucket() : openModal();
                 }}

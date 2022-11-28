@@ -26,8 +26,8 @@ const MainPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const { store } = useContext(Context);
 
-  const [searchValue, setSearchValue] = useState();
-  const [searchTempValue, setSearchTempValue] = useState();
+  const [searchValue, setSearchValue] = useState('');
+  const [searchTempValue, setSearchTempValue] = useState('');
 
   async function fetchEvents() {
     let response = {};
@@ -63,6 +63,8 @@ const MainPage = () => {
       }
     }
     setActualPage(1);
+    setSearchTempValue('');
+    setSearchValue('');
   }, [store.isAuth]);
 
   useEffect(() => {
@@ -83,7 +85,7 @@ const MainPage = () => {
         <Welcome />
         <Grid container sx={{ mx: "1rem" }}>
           <Grid item xs={11}>
-            <SearchPanel />
+            <SearchPanel value ={searchTempValue} onChange={(str)=>setSearchTempValue(str)} />
           </Grid>
           <Grid
             item
@@ -94,7 +96,14 @@ const MainPage = () => {
               alignItems: "center",
             }}
           >
-            <Button>Найти</Button>
+            <Button 
+              sx ={{
+                
+              }}
+              color = "success"
+              onClick = {() => {setSearchValue(searchTempValue);setActualPage(1)}}
+              variant = "outlined">
+              Найти</Button>
           </Grid>
         </Grid>
 
