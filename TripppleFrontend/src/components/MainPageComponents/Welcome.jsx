@@ -5,15 +5,11 @@ const Welcome = () => {
   return (
     <Container sx={{ my: "5rem", ml: "1rem", mr: "1rem" }}>
       <Grid container>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-          <Typography variant="h3" color="#66FCF1" align="center">
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+          {/* <Typography variant="h3" color="#66FCF1" align="center">
             Комплектующие для любых целей
-          </Typography>
+          </Typography> */}
+          <img src="/images/logo.png" />
         </Grid>
       </Grid>
     </Container>
