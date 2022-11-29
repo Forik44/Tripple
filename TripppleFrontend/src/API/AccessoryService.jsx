@@ -7,7 +7,7 @@ export default class AccessoryService {
         params: {
           _page: _page,
           _limit: _limit,
-          _searchValue: _searchValue
+          _searchValue: _searchValue,
         },
       });
       return response;
@@ -21,7 +21,7 @@ export default class AccessoryService {
         params: {
           _page: _page,
           _limit: _limit,
-          _searchValue: _searchValue
+          _searchValue: _searchValue,
         },
       });
       return response;
@@ -34,7 +34,7 @@ export default class AccessoryService {
     try {
       if (localStorage.getItem("token")) {
         const response = await $user_api.get(
-          "http://127.0.0.1:8000/api/shop/" + id
+          "http://127.0.0.1:8000/api/shop_user/" + id
         );
         return response;
       } else {

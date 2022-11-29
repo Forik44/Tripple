@@ -23,7 +23,7 @@ const Header = () => {
                 size="large"
                 disableRipple
                 variant="raised"
-                sx={{ ml: "3rem", color: "#66FCF1" }}
+                sx={{ ml: "3rem", color: "#8300ff" }}
                 onClick={() => {
                   router("/");
                 }}

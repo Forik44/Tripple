@@ -5,7 +5,7 @@ const SearchPanel = (props) => {
     <TextField
       sx={{
         color: "white",
-        backgroundColor: "#1F2833",
+        backgroundColor: "#0e151c",
         borderRadius: "15px",
         input: { color: "white" },
         placeholder: { color: "white" },
