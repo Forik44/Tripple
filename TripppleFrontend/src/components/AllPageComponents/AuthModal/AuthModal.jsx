@@ -30,9 +30,6 @@ export default function AuthModal() {
   const router = useNavigate();
   const onSubmit = (data) => {
     store.login(data.email, data.password);
-    // вот это надо будет убрать, пока для тестов
-    // localStorage.removeItem("token");
-    // localStorage.setItem("token", "enfnfehn");
     router("/");
     closeModal();
     reset();
@@ -56,7 +53,7 @@ export default function AuthModal() {
         >
           <Typography
             id="modal-modal-title"
-            color="white"
+            color="#66FCF1"
             variant="h6"
             component="h2"
             align="center"
@@ -80,11 +77,11 @@ export default function AuthModal() {
               render={({ field }) => (
                 <TextField
                   sx={inputStyle}
-                  label="email..."
+                  placeholder="email..."
                   size="small"
                   margin="none"
                   fullWidth={true}
-                  variant="filled"
+                  variant="outlined"
                   onChange={(e) => field.onChange(e)}
                   value={field.value}
                   error={!!errors.email?.message}
@@ -99,9 +96,9 @@ export default function AuthModal() {
               render={({ field }) => (
                 <TextField
                   sx={inputStyle}
-                  variant="filled"
+                  variant="outlined"
                   type="password"
-                  label="пароль..."
+                  placeholder="пароль..."
                   size="small"
                   margin="normal"
                   fullWidth={true}

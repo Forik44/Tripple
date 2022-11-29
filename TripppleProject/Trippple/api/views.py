@@ -102,7 +102,7 @@ def getProductsByUser(request):
                 serializer.data[i]["isBucket"] = True
                 serializer.data[i]["amount"] = bucket.amount
     responce = Response(serializer.data)
-    responce["x-total-count"] = len(Product.objects.all())
+    responce["x-total-count"] = size
     return responce
 
 
@@ -110,8 +110,26 @@ def getProductsByUser(request):
 def getProduct(request, pk):
     products = Product.objects.get(id=pk)
     serializer = ProductSerializer(products, many=False)
+    res={}
+    res= serializer.data
+    res["isBucket"] = False
+    res["amount"] = 0
+    return Response(res)
 
-    return Response(serializer.data)
+@api_view(['GET'])
+def getProductByUser(request, pk):
+    products = Product.objects.get(id=pk)
+    serializer = ProductSerializer(products, many=False)
+    res={}
+    res= serializer.data
+    token = request.headers["Authorization"].split()[1]
+    user = CustomUser.objects.get(JWT=token)
+    bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data["id"])
+    if(len(bucket) > 0):
+                bucket = Bucket.objects.get(user_id=user.id, product_id=serializer.data["id"])
+                res["isBucket"] = True
+                res["amount"] = bucket.amount
+    return Response(res)
     
 
 @api_view(['GET'])

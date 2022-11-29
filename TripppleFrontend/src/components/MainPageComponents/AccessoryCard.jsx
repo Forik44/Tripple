@@ -10,7 +10,6 @@ import {
   Grid,
   Stack,
   Box,
-  TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
@@ -52,7 +51,7 @@ const AccessoryCard = (props) => {
         ml: "1rem",
         mr: "1rem",
         mt: "1rem",
-        background: "#1F2833",
+        background: "#0e151c",
         borderRadius: "20px",
       }}
     >
@@ -74,7 +73,7 @@ const AccessoryCard = (props) => {
               sx={{ cursor: "pointer" }}
               color={color}
               onMouseEnter={() => {
-                setColor("black");
+                setColor("#45A29E");
               }}
               onMouseLeave={() => {
                 setColor("#66FCF1");

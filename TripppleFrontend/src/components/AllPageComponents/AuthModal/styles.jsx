@@ -9,12 +9,16 @@ export const modalBoxStyle = {
   boxShadow: 24,
   p: 4,
   borderRadius: "20px",
-  background: "#56b37e",
+  background: "#0e151c",
 };
 export const inputStyle = {
-  background: "white",
-  input: { color: "#8cad9b" },
-  label: { color: "success" },
+  color: "white",
+  backgroundColor: "#45A29E",
+  borderRadius: "15px",
+  input: { color: "black" },
+  "& fieldset": { border: "none" },
+  // input: { color: "#8cad9b" },
+  label: { color: "black" },
 };
 export const buttonContainer = {
   marginTop: "1rem",
