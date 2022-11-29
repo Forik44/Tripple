@@ -17,6 +17,7 @@ import { Context } from "../../App";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { observer } from "mobx-react-lite";
+import shadows from "@mui/material/styles/shadows";
 
 const AccessoryCard = (props) => {
   const inBucket = async () => {
@@ -103,7 +104,6 @@ const AccessoryCard = (props) => {
               <Button
                 size="small"
                 variant="outlined"
-                sx={{}}
                 color = "success"
                 onClick={() => {
                   store.isAuth ? inBucket() : openModal();
