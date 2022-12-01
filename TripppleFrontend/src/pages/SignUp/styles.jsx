@@ -1,7 +1,10 @@
 export const inputStyle = {
-  background: "white",
-  input: { color: "success" },
-  label: { color: "success" },
+  color: "white",
+  backgroundColor: "#45A29E",
+  borderRadius: "15px",
+  input: { color: "black" },
+  "& fieldset": { border: "none" },
+  label: { color: "black" },
 };
 
 export const mainBoxStyle = {
@@ -10,12 +13,12 @@ export const mainBoxStyle = {
   border: "none",
 };
 export const continueButtonStyle = {
-  background: "white",
+  background: "purple",
   borderRadius: "20px",
   marginRight: 3,
 };
 export const cancelButtonStyle = {
-  background: "white",
+  background: "purple",
   borderRadius: "20px",
 };
 export const buttonBoxStyle = {

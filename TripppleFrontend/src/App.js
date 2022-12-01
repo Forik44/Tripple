@@ -9,6 +9,7 @@ import { ModalProvider } from "./hoc/ModalProvider";
 import Store from "./store/store";
 import { createContext } from "react";
 import { observer } from "mobx-react-lite";
+import Basket from "./pages/Basket";
 
 const store = new Store();
 export const Context = createContext({
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="shop/:id" element={<AccessoryPage />} />
               <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/basket" element={<Basket />} />
               <Route path="*" element={<MainPage />} />
             </Route>
           </Routes>

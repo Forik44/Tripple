@@ -61,7 +61,7 @@ const SignUp = () => {
         <Typography
           width="100%"
           id="modal-modal-title"
-          color="white"
+          color="#66FCF1"
           variant="h5"
           component="h2"
           marginBottom={"2rem"}
@@ -84,11 +84,11 @@ const SignUp = () => {
             render={({ field }) => (
               <TextField
                 sx={inputStyle}
-                label="Имя..."
+                placeholder="Имя..."
                 size="small"
                 margin="normal"
                 fullWidth={true}
-                variant="filled"
+                variant="outlined"
                 onChange={(e) => field.onChange(e)}
                 value={field.value}
                 error={!!errors.name?.message}
@@ -103,8 +103,8 @@ const SignUp = () => {
             render={({ field }) => (
               <TextField
                 sx={inputStyle}
-                variant="filled"
-                label="Фамилия..."
+                variant="outlined"
+                placeholder="Фамилия..."
                 size="small"
                 margin="normal"
                 fullWidth={true}
@@ -122,8 +122,8 @@ const SignUp = () => {
             render={({ field }) => (
               <TextField
                 sx={inputStyle}
-                variant="filled"
-                label="Номер телефона..."
+                variant="outlined"
+                placeholder="Номер телефона..."
                 size="small"
                 margin="normal"
                 fullWidth={true}
@@ -141,8 +141,8 @@ const SignUp = () => {
             render={({ field }) => (
               <TextField
                 sx={inputStyle}
-                variant="filled"
-                label="email..."
+                variant="outlined"
+                plaxeholder="email..."
                 size="small"
                 margin="normal"
                 fullWidth={true}
@@ -160,9 +160,9 @@ const SignUp = () => {
             render={({ field }) => (
               <TextField
                 sx={inputStyle}
-                variant="filled"
+                variant="outlined"
                 type="password"
-                label="Пароль..."
+                placeholder="Пароль..."
                 size="small"
                 margin="normal"
                 fullWidth={true}
@@ -180,9 +180,9 @@ const SignUp = () => {
             render={({ field }) => (
               <TextField
                 sx={inputStyle}
-                variant="filled"
+                variant="outlined"
                 type="password"
-                label="Подтверждение пароля..."
+                placeholder="Подтверждение пароля..."
                 size="small"
                 margin="normal"
                 fullWidth={true}

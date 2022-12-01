@@ -18,5 +18,6 @@ urlpatterns = [
     path('check_token', views.getUser, name="GetUser"),
     path('addtobucket', views.addBucket, name="GetUser"),
     path('deletefrombucket', views.deleteBucket, name="GetUser"),
-    path('changeamountbucket', views.changeAmountBucket, name="GetUser")
+    path('changeamountbucket', views.changeAmountBucket, name="GetUser"),
+    path('get_basket', views.getBasket, name ="GetUser")
 ]

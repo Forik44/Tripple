@@ -75,6 +75,28 @@ def getProducts(request):
     return responce
 
 
+@api_view(['GET'])
+def getBasket(request):
+    token = request.headers["Authorization"].split()[1]
+    user = CustomUser.objects.get(JWT=token)
+    bucket = Bucket.objects.filter(user_id=user.id)
+    bucket = BucketSerializer(bucket, many=True)
+    bucket_id = []
+    bucket_data={}
+    
+    for i in bucket.data:
+        bucket_id.append(i["product_id"])
+        bucket_data[i["product_id"]] = i["amount"]
+    products = Product.objects.filter(id__in=bucket_id)
+    products = ProductSerializer(products,many=True)
+    for i in products.data:
+        i["isBucket"] = True
+        i["amount"]= bucket_data[i["id"]]
+    response = Response(products.data)
+    return response
+
+    
+
 
 @api_view(['GET'])
 def getProductsByUser(request):

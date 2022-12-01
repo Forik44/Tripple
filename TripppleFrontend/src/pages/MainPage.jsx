@@ -84,7 +84,7 @@ const MainPage = () => {
         }}
       >
         <Welcome />
-        <Grid container sx={{ mx: "1rem", width: "98%" }}>
+        <Grid container sx={{ mx: "1rem" }}>
           <Grid
             item
             xs={12}

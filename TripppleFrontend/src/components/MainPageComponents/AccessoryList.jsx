@@ -16,14 +16,14 @@ export function AccessoryList(props) {
   return (
     <>
       <Grid container>
-        <Grid item xs ={9}>
-            {props.data.map((dat) => (
-              <AccessoryCard key={dat.amount + "id" + dat.id} data={dat} />
-            ))}
+        <Grid item xs={9}>
+          {props.data.map((dat) => (
+            <AccessoryCard key={dat.amount + "id" + dat.id} data={dat} />
+          ))}
         </Grid>
-        <Grid item xs = {3}>
-            <Box
-            sx = {{
+        <Grid item xs={3}>
+          <Box
+            sx={{
               position: "sticky",
               top: "30px",
               width: "100%",
@@ -31,13 +31,11 @@ export function AccessoryList(props) {
               background: "white",
               display: "flex",
               justifyContent: "start",
-              ml: "1rem",
               mr: "1rem",
               mt: "1rem",
               borderRadius: "20px",
             }}
-            >
-            </Box>
+          ></Box>
         </Grid>
       </Grid>
 
