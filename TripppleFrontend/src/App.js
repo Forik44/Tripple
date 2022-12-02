@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./components/AllPageComponents/Layout";
 import AccessoryPage from "./pages/AccessoryPage";
 import MainPage from "./pages/MainPage";
@@ -26,8 +26,8 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="shop/:id" element={<AccessoryPage />} />
               <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/basket" element={<Basket />} />
-              <Route path="*" element={<MainPage />} />
+              {store.isAuth && <Route path="/basket" element={<Basket />} />}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>
         </ModalProvider>
