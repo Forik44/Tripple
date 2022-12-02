@@ -74,24 +74,32 @@ const Header = () => {
               justifyContent={"center"}
             >
               <Box
-                sx={{ textAlign: "center", m: 1, mt: 1.5, color: "#66FCF1" }}
+                sx={{
+                  textAlign: "center",
+                  m: 1,
+                  mt: 1.5,
+                  color: "#66FCF1",
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
                 {store.user.name} {store.user.lastName}
+                <ShoppingCartIcon
+                  color="success"
+                  sx={{ mx: "0.5rem", cursor: "pointer" }}
+                  onClick={() => router("/basket")}
+                />
                 <Button
                   disableRipple
-                  sx={{ color: "red" }}
+                  sx={{ color: "red", fontSize: "80%", pt: "0.5rem" }}
                   variant="raised"
-                  size="large"
+                  size="small"
                   onClick={() => {
                     store.logout();
                   }}
                 >
                   Выйти
                 </Button>
-                <ShoppingCartIcon
-                  color="success"
-                  onClick={() => router("/basket")}
-                />
               </Box>
             </Grid>
           )}
