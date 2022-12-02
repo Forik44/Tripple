@@ -5,6 +5,7 @@ import { Context } from "../../App";
 import { useModal } from "../../hooks/useModal";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const Header = () => {
   const { store } = useContext(Context);
@@ -87,6 +88,10 @@ const Header = () => {
                 >
                   Выйти
                 </Button>
+                <ShoppingCartIcon
+                  color="success"
+                  onClick={() => router("/basket")}
+                />
               </Box>
             </Grid>
           )}

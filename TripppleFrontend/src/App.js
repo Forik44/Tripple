@@ -9,7 +9,7 @@ import { ModalProvider } from "./hoc/ModalProvider";
 import Store from "./store/store";
 import { createContext } from "react";
 import { observer } from "mobx-react-lite";
-import Basket from "./pages/Basket";
+import Basket from "./pages/Basket/Basket";
 
 const store = new Store();
 export const Context = createContext({

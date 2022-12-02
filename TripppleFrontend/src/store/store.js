@@ -16,16 +16,16 @@ export default class Store {
     this.user = user;
   }
   async appendBucketItem(id) {
-    this.user.bucket.push({ id: id, amount: 1 });
+    // this.user.bucket.push({ id: id, amount: 1 });
     await UserService.addToBucket(id);
   }
   async deleteBucketItem(id) {
-    this.user.bucket = this.user.bucket.filter((inf) => inf["id"] != id);
+    // this.user.bucket = this.user.bucket.filter((inf) => inf["id"] != id);
     await UserService.deleteFromBucket(id);
   }
   async changeAmountInBucket(id, amount) {
-    let index = this.user.bucket.findIndex((obj) => obj.id == id);
-    this.user.bucket[index].amount = amount;
+    // let index = this.user.bucket.findIndex((obj) => obj.id == id);
+    // this.user.bucket[index].amount = amount;
     await UserService.changeAmountItem(id, amount);
   }
 
