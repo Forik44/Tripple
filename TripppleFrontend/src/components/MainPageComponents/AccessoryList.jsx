@@ -3,9 +3,14 @@ import { Box } from "@mui/system";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Context } from "../../App";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import AccessoryCard from "./AccessoryCard";
-
+import { FilterMenu } from "./FilterMenu/FilterMenu";
 import MyPagination from "./MyPagination";
 
 export function AccessoryList(props) {
@@ -16,28 +21,13 @@ export function AccessoryList(props) {
   return (
     <>
       <Grid container>
-        <Grid item xs ={9}>
+      <Grid item xs ={9}>
             {props.data.map((dat) => (
               <AccessoryCard key={dat.amount + "id" + dat.id} data={dat} />
             ))}
         </Grid>
         <Grid item xs = {3}>
-            <Box
-            sx = {{
-              position: "sticky",
-              top: "30px",
-              width: "100%",
-              height: "20%",
-              background: "white",
-              display: "flex",
-              justifyContent: "start",
-              ml: "1rem",
-              mr: "1rem",
-              mt: "1rem",
-              borderRadius: "20px",
-            }}
-            >
-            </Box>
+            <FilterMenu/>
         </Grid>
       </Grid>
 
