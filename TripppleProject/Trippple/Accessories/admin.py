@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from.models import CPU, MemoryTypes, Socket, GPU, VideoMemoryTypes, ConnectionsTypes, Motherboard, Chipset
+from.models import CPU, MemoryTypes, Socket, GPU, VideoMemoryTypes, ConnectionsTypes, Motherboard, Chipset, RAM
 
 class CPUAdmin(admin.ModelAdmin):
     list_display = ('id', 'manufacturer', 'CPUmodel', 'is_graphic')
@@ -46,6 +46,12 @@ class ChipsetAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title')
     search_fields = ('title',)
 
+class RAMAdmin(admin.ModelAdmin):
+    list_display = ('id', 'manufacturer', 'RAMmodel', 'countRAM')
+    list_display_links = ('id', 'countRAM')
+    search_fields = ('RAMmodel', 'manufacturer')
+    list_filter = ('manufacturer',)
+
 admin.site.register(CPU, CPUAdmin)
 admin.site.register(MemoryTypes, MemoryTypesAdmin)
 admin.site.register(Socket, SocketAdmin)
@@ -54,3 +60,4 @@ admin.site.register(VideoMemoryTypes, VideoMemoryTypesAdmin)
 admin.site.register(ConnectionsTypes, ConnectionsTypesAdmin)
 admin.site.register(Motherboard, MotherboardAdmin)
 admin.site.register(Chipset, ChipsetAdmin)
+admin.site.register(RAM, RAMAdmin)
