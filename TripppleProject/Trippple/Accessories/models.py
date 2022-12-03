@@ -110,3 +110,43 @@ class Chipset(models.Model):
         verbose_name = 'Чипсет'
         verbose_name_plural = 'Чипсет'
         ordering = ['title']
+
+class RAM(models.Model):
+    manufacturer = models.CharField(max_length=150, verbose_name='Производитель')
+    RAMmodel = models.CharField(max_length=150, verbose_name='Модель')
+    countRAM = models.IntegerField(verbose_name='Количество памяти')
+    frequency = models.IntegerField(verbose_name='Частота', default=None)
+    RAMtype = models.ForeignKey('MemoryTypes', on_delete=models.CASCADE, verbose_name='ID типа памяти', blank=True)
+
+    def __str__(self):
+        return self.RAMmodel
+
+    class Meta:
+        verbose_name = 'Оперативная память'
+        verbose_name_plural = 'Оперативные памяти'
+        ordering = ['RAMmodel']
+
+class Memory(models.Model):
+    manufacturer = models.CharField(max_length=150, verbose_name='Производитель')
+    MEMmodel = models.CharField(max_length=150, verbose_name='Модель')
+    countMEM = models.IntegerField(verbose_name='Количество памяти')
+    speedMEM = models.IntegerField(verbose_name='Скорость вращения шпинделя', default=None)
+    def __str__(self):
+        return self.MEMmodel
+    class Meta:
+        verbose_name = 'Память'
+        verbose_name_plural = 'Памяти'
+        ordering = ['MEMmodel']
+
+class SSDMemory(models.Model):
+    manufacturer = models.CharField(max_length=150, verbose_name='Производитель')
+    MEMmodel = models.CharField(max_length=150, verbose_name='Модель')
+    countMEM = models.IntegerField(verbose_name='Количество памяти')
+    speedMEMRead = models.IntegerField(verbose_name='Максимальная скорость последовательного чтения', default=None)
+    speedMEMWrite = models.IntegerField(verbose_name='Максимальная скорость последовательной записи', default=None)
+    def __str__(self):
+        return self.MEMmodel
+    class Meta:
+        verbose_name = 'SSD Память'
+        verbose_name_plural = 'SSD Памяти'
+        ordering = ['MEMmodel']

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import CPU, GPU, Motherboard, Socket
-from .serializers import CPUSerializer, GPUSerializer, MBSerializer
+from .models import CPU, GPU, Motherboard, Socket, RAM, Memory, SSDMemory
+from .serializers import CPUSerializer, GPUSerializer, MBSerializer, RAMSerializer, MemorySerializer, SSDMemorySerializer
 
 # Create your views here.
 
@@ -94,6 +94,31 @@ def getCategoryItem(request, category_id, pk):
             'value': products.connectiontype.title,
             'verbose_name': 'Интерфейс подключения видеокарты',
         }
+        return Response(Res)
+
+    if (category_id == "4"):
+        products = RAM.objects.get(id=pk)
+        serializer = RAMSerializer(products, many=False)
+        Res = serializer.data
+
+        Res['RAMtype'] = {
+            'value': products.RAMtype.title,
+            'verbose_name': 'Тип оперативной памяти',
+        }
+        return Response(Res)
+
+    if (category_id == "5"):
+        products = Memory.objects.get(id=pk)
+        serializer = MemorySerializer(products, many=False)
+        Res = serializer.data
+
+        return Response(Res)
+
+    if (category_id == "6"):
+        products = SSDMemory.objects.get(id=pk)
+        serializer = SSDMemorySerializer(products, many=False)
+        Res = serializer.data
+
         return Response(Res)
 
     return Response()
