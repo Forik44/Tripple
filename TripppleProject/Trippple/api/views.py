@@ -173,20 +173,49 @@ from .serializers import CurrentUserSerializer, BucketSerializer
 def login_user(request):
     email = request.data['email']
     password = request.data['password']
-    user = User.objects.filter(email=email, password=password)
+    #Обычная авторизация
+    if not(request.data["g"]):
+        user = User.objects.filter(email=email, password=password)
 
-    if not user:
-        return Response("Takogo usera net", status=status.HTTP_400_BAD_REQUEST)
-    user = User.objects.get(email=email)
-    customUser =CustomUser.objects.get(user=user.id)
-    token = customUser.JWT
-    user_details = {}
-    user_details['name'] = "%s" % (user.first_name)
-    user_details['lastName'] = "%s" % (user.last_name)
-    user_details['token'] = token
-    user_logged_in.send(sender=user.__class__, request=request, user=user)
+        if not user:
+            return Response("Takogo usera net", status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(email=email)
+        customUser =CustomUser.objects.get(user=user.id)
+        token = customUser.JWT
+        user_details = {}
+        user_details['name'] = "%s" % (user.first_name)
+        user_details['lastName'] = "%s" % (user.last_name)
+        user_details['token'] = token
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
 
-    return Response(user_details, status=status.HTTP_200_OK)
+        return Response(user_details, status=status.HTTP_200_OK)
+    else:
+        #Авторизация с гуглом
+        user = User.objects.filter(email=email)
+
+        if not user:
+            #Если еще ни разу не авторизовывались
+            User.objects.create(username=email, email=email, password="", first_name=password, last_name="")
+            user = User.objects.get(email=email)
+            token = get_tokens_for_user(user)['access']
+            CustomUser.objects.create(user=user, JWT=token, phone="")
+            user_details = {}
+            user_details['name'] = "%s %s" % (user.first_name, user.last_name)
+            user_details['token'] = token
+            return Response(user_details, status=status.HTTP_200_OK)
+        #Если уже авторизовывались    
+        user = User.objects.get(email=email)
+        customUser =CustomUser.objects.get(user=user.id)
+        token = customUser.JWT
+        user_details = {}
+        user_details['name'] = "%s" % (user.first_name)
+        user_details['lastName'] = "%s" % (user.last_name)
+        user_details['token'] = token
+        user_logged_in.send(sender=user.__class__, request=request, user=user)
+        return Response(user_details, status=status.HTTP_200_OK)
+
+
+    
 
 from rest_framework_simplejwt.tokens import RefreshToken
 def get_tokens_for_user(user):
@@ -218,7 +247,6 @@ def register_user(request):
     else:
         return Response("User yze yest", status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
