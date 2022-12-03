@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import CPU, GPU, Motherboard, Socket, RAM, Memory
-from .serializers import CPUSerializer, GPUSerializer, MBSerializer, RAMSerializer, MemorySerializer
+from .models import CPU, GPU, Motherboard, Socket, RAM, Memory, SSDMemory
+from .serializers import CPUSerializer, GPUSerializer, MBSerializer, RAMSerializer, MemorySerializer, SSDMemorySerializer
 
 # Create your views here.
 
@@ -110,6 +110,13 @@ def getCategoryItem(request, category_id, pk):
     if (category_id == "5"):
         products = Memory.objects.get(id=pk)
         serializer = MemorySerializer(products, many=False)
+        Res = serializer.data
+
+        return Response(Res)
+
+    if (category_id == "6"):
+        products = SSDMemory.objects.get(id=pk)
+        serializer = SSDMemorySerializer(products, many=False)
         Res = serializer.data
 
         return Response(Res)

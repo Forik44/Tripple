@@ -131,7 +131,6 @@ class Memory(models.Model):
     MEMmodel = models.CharField(max_length=150, verbose_name='Модель')
     countMEM = models.IntegerField(verbose_name='Количество памяти')
     speedMEM = models.IntegerField(verbose_name='Скорость вращения шпинделя', default=None)
-    is_SSD = models.BooleanField(verbose_name='SSD?')
     def __str__(self):
         return self.MEMmodel
     class Meta:
@@ -139,3 +138,15 @@ class Memory(models.Model):
         verbose_name_plural = 'Памяти'
         ordering = ['MEMmodel']
 
+class SSDMemory(models.Model):
+    manufacturer = models.CharField(max_length=150, verbose_name='Производитель')
+    MEMmodel = models.CharField(max_length=150, verbose_name='Модель')
+    countMEM = models.IntegerField(verbose_name='Количество памяти')
+    speedMEMRead = models.IntegerField(verbose_name='Максимальная скорость последовательного чтения', default=None)
+    speedMEMWrite = models.IntegerField(verbose_name='Максимальная скорость последовательной записи', default=None)
+    def __str__(self):
+        return self.MEMmodel
+    class Meta:
+        verbose_name = 'SSD Память'
+        verbose_name_plural = 'SSD Памяти'
+        ordering = ['MEMmodel']
