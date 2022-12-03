@@ -33,4 +33,12 @@ export default class UserService {
       console.log("Какой-то ерор в changeAmountItem");
     }
   }
+  static async getBasket() {
+    try {
+      const response = await $user_api.get("/get_basket");
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

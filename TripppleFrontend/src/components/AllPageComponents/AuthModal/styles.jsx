@@ -27,10 +27,10 @@ export const buttonContainer = {
   justifyContent: "space-around",
 };
 export const loginButtonStyle = {
-  background: "white",
+  background: "purple",
   borderRadius: "20px",
 };
 export const cancelButtonStyle = {
-  background: "white",
+  background: "purple",
   borderRadius: "20px",
 };
