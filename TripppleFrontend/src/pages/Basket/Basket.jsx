@@ -104,6 +104,7 @@ const Basket = () => {
               }}
             >
               <Button
+                disabled={!!(addedList.length === 1)}
                 size="small"
                 variant="outlined"
                 color="success"
