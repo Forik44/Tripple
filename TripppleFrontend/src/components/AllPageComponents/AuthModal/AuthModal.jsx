@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useModal } from "../../../hooks/useModal";
 import { Container, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +16,36 @@ import {
 } from "./styles";
 import { emailValidation, passwordValidation } from "./validation";
 import { Context } from "../../../App";
+import jwt_decode from "jwt-decode";
 
 export default function AuthModal() {
+  const { modalOpened, closeModal } = useModal();
+  async function handleCallbackResponse(response) {
+    let userObject = jwt_decode(response.credential);
+    console.log(userObject);
+    await store.login(userObject.email, userObject.name, true);
+    router("/");
+    closeModal();
+    reset();
+  }
+  useEffect(() => {
+    setTimeout(() => {
+      /*global google */
+      google.accounts.id.initialize({
+        client_id:
+          "670366378627-q5kh797v88plqiqe8gl21g50d0p521d4.apps.googleusercontent.com",
+        callback: handleCallbackResponse,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("googleButton"),
+        {
+          theme: "filled_black",
+          shape: "pill",
+        },
+        0
+      );
+    });
+  }, [modalOpened]);
   const { store } = useContext(Context);
   const {
     handleSubmit,
@@ -26,10 +54,10 @@ export default function AuthModal() {
     formState: { isValid },
   } = useForm({ mode: "onChange" });
   const { errors } = useFormState({ control });
-  const { modalOpened, closeModal } = useModal();
+
   const router = useNavigate();
-  const onSubmit = (data) => {
-    store.login(data.email, data.password);
+  const onSubmit = async (data) => {
+    await store.login(data.email, data.password, false);
     router("/");
     closeModal();
     reset();
@@ -141,6 +169,7 @@ export default function AuthModal() {
             >
               Регистрация
             </Button>
+            <div id="googleButton" style={{ marginTop: "1rem" }}></div>
           </form>
         </Box>
       </Modal>

@@ -6,3 +6,4 @@
 5.npm install react-hook-form
 6.npm install mobx-react-lite
 7.npm install mobx
+8.npm i jwt-decode

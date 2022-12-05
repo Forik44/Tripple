@@ -29,10 +29,9 @@ export default class Store {
     await UserService.changeAmountItem(id, amount);
   }
 
-  async login(email, password) {
+  async login(email, password, google) {
     try {
-      const response = await AuthService.login(email, password);
-      console.log(response);
+      const response = await AuthService.login(email, password, google);
       localStorage.setItem("token", `Bearer ${response.data.token}`);
       this.setAuth(true);
     } catch (e) {

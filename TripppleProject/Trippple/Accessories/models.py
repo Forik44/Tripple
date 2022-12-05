@@ -150,3 +150,14 @@ class SSDMemory(models.Model):
         verbose_name = 'SSD Память'
         verbose_name_plural = 'SSD Памяти'
         ordering = ['MEMmodel']
+
+class PS(models.Model):
+    manufacturer = models.CharField(max_length=150, verbose_name='Производитель')
+    PSmodel = models.CharField(max_length=150, verbose_name='Модель')
+    power = models.IntegerField(verbose_name='Мощность')
+    def __str__(self):
+        return self.PSmodel
+    class Meta:
+        verbose_name = 'Блок питания'
+        verbose_name_plural = 'Блоки питания'
+        ordering = ['PSmodel']

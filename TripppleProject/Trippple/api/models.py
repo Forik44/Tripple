@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Create your odels here.
 
 class Product(models.Model):
     title = models.CharField(max_length=150, verbose_name='Наименование')
