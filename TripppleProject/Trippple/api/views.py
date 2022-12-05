@@ -337,13 +337,21 @@ from Accessories.models import *
 def getProductForConfigurator(request):
     category_id = request.data["category_id"]
     res = {"data": []}
+
     if (category_id == 1):
         products = Product.objects.filter(category_id=1)
         for product in products:
             serializer = ProductSerializer(product, many=False)
-            res["data"].append(serializer.data)
+            tmp = serializer.data
+            tmp["is_graphic"] = CPU.objects.get(id=product.accessory_id).is_graphic
+            res["data"].append(tmp)
+
     if (category_id == 2):
-        res = {}
+        products = Product.objects.filter(category_id=2)
+        for product in products:
+            serializer = ProductSerializer(product, many=False)
+            res["data"].append(serializer.data)
+
     if (category_id == 3):
         id = request.data["cpu"]
         CPU_id = Product.objects.get(id=id).accessory_id
@@ -353,6 +361,7 @@ def getProductForConfigurator(request):
             product = Product.objects.get(accessory_id=mb['id'], category_id=category_id)
             serializer = ProductSerializer(product, many=False)
             res["data"].append(serializer.data)
+
     if (category_id == 4):
         id = request.data["cpu"]
         CPU_id = Product.objects.get(id=id).accessory_id
@@ -381,12 +390,45 @@ def getProductForConfigurator(request):
             res["data"].append(tmp)
 
 
-    if (category_id == 5):
-        res = {}
-    if (category_id == 6):
-        res = {}
+    if (category_id == 5 or category_id == 6):
+
+        products = Product.objects.filter(category_id=5)
+        for product in products:
+            serializer = ProductSerializer(product, many=False)
+            res["data"].append(serializer.data)
+
+        products = Product.objects.filter(category_id=6)
+        for product in products:
+            serializer = ProductSerializer(product, many=False)
+            res["data"].append(serializer.data)
+
     if (category_id == 7):
-        res = {}
+        id = request.data["cpu"]
+        CPU_id = Product.objects.get(id=id).accessory_id
+        CPUitem = CPU.objects.get(id=CPU_id)
+        TPD = CPUitem.TPD
+
+        id = request.data["gpu"]
+        GPU_id = Product.objects.get(id=id).accessory_id
+        GPUitem = GPU.objects.get(id=GPU_id)
+        TPD += GPUitem.TPD
+
+        ids = request.data["mem"]
+        for id in ids:
+            MEM = Product.objects.get(id=id)
+            MEM_id = MEM.accessory_id
+            if(MEM.category_id == 5):
+                MEMitem = Memory.objects.get(id=MEM_id)
+                TPD += MEMitem.TPD
+            if(MEM.category_id == 6):
+                MEMitem = SSDMemory.objects.get(id=MEM_id)
+                TPD += MEMitem.TPD
+
+        PSs = PS.objects.filter(power__gt = TPD*1.3).values()
+        for ps in list(PSs):
+            product = Product.objects.get(accessory_id=ps['id'], category_id=category_id)
+            serializer = ProductSerializer(product, many=False)
+            res["data"].append(serializer.data)
 
     return Response(res)
 
