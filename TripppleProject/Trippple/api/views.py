@@ -163,6 +163,26 @@ def getCategory(request, pk):
     responce = Response(serializer.data, headers={"x-total-count": len(Product.objects.filter(category_id=pk))})
     return responce
 
+from .models import Category
+from django.db.models import Max, Min
+@api_view(['GET'])
+def getCategoryInfo(request):
+    categories = Category.objects.all()
+    res = {}
+    for category in categories:
+        catProducts = Product.objects.filter(category_id=category.id).values()
+        max_price = catProducts.aggregate(Max('price'))['price__max']
+        min_price = catProducts.aggregate(Min('price'))['price__min']
+        res[category.id] = {
+            'min_price': min_price,
+            'max_price': max_price,
+            'verbose_name': category.title,
+        }
+
+
+
+    return Response(res)
+
 from django.contrib.auth.models import User
 from .models import CustomUser
 from Trippple import settings
