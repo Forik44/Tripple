@@ -345,7 +345,7 @@ def getProductForConfigurator(request):
     if (category_id == 2):
         res = {}
     if (category_id == 3):
-        id = request.data["CPU"]
+        id = request.data["cpu"]
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
         MBs = Motherboard.objects.filter(socket_id=CPUitem.socket_id,RAMtype=CPUitem.RAMtype).values()
@@ -354,11 +354,11 @@ def getProductForConfigurator(request):
             serializer = ProductSerializer(product, many=False)
             res["data"].append(serializer.data)
     if (category_id == 4):
-        id = request.data["CPU"]
+        id = request.data["cpu"]
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
 
-        id = request.data["MB"]
+        id = request.data["mb"]
         MB_id = Product.objects.get(id=id).accessory_id
         MBitem = Motherboard.objects.get(id=MB_id)
 
