@@ -57,7 +57,7 @@ class GPUSerializer(ModelSerializer):
 
     class Meta:
         model = GPU
-        fields = ['manufacturer','GPUmodel','amountvideomemory','buswidth']
+        fields = ['manufacturer','GPUmodel','amountvideomemory','buswidth','TPD']
 
 
 class MBSerializer(ModelSerializer):
@@ -142,7 +142,7 @@ class MemorySerializer(ModelSerializer):
 
     class Meta:
         model = Memory
-        fields = ['manufacturer','MEMmodel','countMEM','speedMEM']
+        fields = ['manufacturer','MEMmodel','countMEM','speedMEM','TPD']
 
 class SSDMemorySerializer(ModelSerializer):
     def to_representation(self, instance):
@@ -170,7 +170,7 @@ class SSDMemorySerializer(ModelSerializer):
 
     class Meta:
         model = SSDMemory
-        fields = ['manufacturer','MEMmodel','countMEM','speedMEMRead','speedMEMWrite']
+        fields = ['manufacturer','MEMmodel','countMEM','speedMEMRead','speedMEMWrite','TPD']
 
 class PSSerializer(ModelSerializer):
     def to_representation(self, instance):
