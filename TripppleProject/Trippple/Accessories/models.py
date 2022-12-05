@@ -50,7 +50,7 @@ class GPU(models.Model):
     typememory_id = models.ForeignKey('VideoMemoryTypes', on_delete=models.CASCADE, verbose_name='Тип памяти')
     connectiontype = models.ForeignKey('ConnectionsTypes', on_delete=models.CASCADE, verbose_name='Интерфейс подключения')
     buswidth = models.IntegerField(verbose_name='Разрядность шины')
-
+    TPD = models.IntegerField(default=100, verbose_name='TPD')
     def __str__(self):
         return self.GPUmodel
 
@@ -131,6 +131,7 @@ class Memory(models.Model):
     MEMmodel = models.CharField(max_length=150, verbose_name='Модель')
     countMEM = models.IntegerField(verbose_name='Количество памяти')
     speedMEM = models.IntegerField(verbose_name='Скорость вращения шпинделя', default=None)
+    TPD = models.IntegerField(default=20, verbose_name='TPD')
     def __str__(self):
         return self.MEMmodel
     class Meta:
@@ -144,6 +145,7 @@ class SSDMemory(models.Model):
     countMEM = models.IntegerField(verbose_name='Количество памяти')
     speedMEMRead = models.IntegerField(verbose_name='Максимальная скорость последовательного чтения', default=None)
     speedMEMWrite = models.IntegerField(verbose_name='Максимальная скорость последовательной записи', default=None)
+    TPD = models.IntegerField(default=20, verbose_name='TPD')
     def __str__(self):
         return self.MEMmodel
     class Meta:
