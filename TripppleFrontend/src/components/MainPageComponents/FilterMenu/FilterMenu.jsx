@@ -10,13 +10,14 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import FilterAccordions from "./FilterAccordions";
+
 
 export function FilterMenu(){
     
     return(
-        <>
-            {/* <Box
-            sx = {{
+        <Box
+          sx ={{
               position: "sticky",
               top: "30px",
               width: "100%",
@@ -28,10 +29,8 @@ export function FilterMenu(){
               mr: "1rem",
               mt: "1rem",
               borderRadius: "20px",
-            }}
-            >
-            </Box> */} 
-          
-        </>
+          }}>            
+          <FilterAccordions/>
+        </Box>
     )
 }
