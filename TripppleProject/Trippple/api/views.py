@@ -336,31 +336,51 @@ from Accessories.models import *
 @api_view(['POST'])
 def getProductForConfigurator(request):
     category_id = request.data["category_id"]
-    res = {}
+    res = {"data": []}
     if (category_id == 1):
         products = Product.objects.filter(category_id=1)
-        number = 1
         for product in products:
             serializer = ProductSerializer(product, many=False)
-            res[number] = serializer.data
-            number += 1
+            res["data"].append(serializer.data)
     if (category_id == 2):
         res = {}
     if (category_id == 3):
         id = request.data["CPU"]
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
-        MBs = Motherboard.objects.filter(socket_id=CPUitem.socket_id).values()
-        number = 1
+        MBs = Motherboard.objects.filter(socket_id=CPUitem.socket_id,RAMtype=CPUitem.RAMtype).values()
         for mb in list(MBs):
             product = Product.objects.get(accessory_id=mb['id'], category_id=category_id)
             serializer = ProductSerializer(product, many=False)
-            res[number] = serializer.data
-            number += 1
+            res["data"].append(serializer.data)
     if (category_id == 4):
-        
+        id = request.data["CPU"]
+        CPU_id = Product.objects.get(id=id).accessory_id
+        CPUitem = CPU.objects.get(id=CPU_id)
 
-        res = {}
+        id = request.data["MB"]
+        MB_id = Product.objects.get(id=id).accessory_id
+        MBitem = Motherboard.objects.get(id=MB_id)
+
+        RAMmax = min(CPUitem.RAMmax, MBitem.maxAmountRAM)
+        countRAM = MBitem.countslotsRAM
+
+        RAMs = RAM.objects.filter(RAMtype=MBitem.RAMtype).values()
+
+        for ram in list(RAMs):
+            product = Product.objects.get(accessory_id=ram['id'], category_id=category_id)
+            amount = 0
+            if(ram['countRAM'] > RAMmax):
+                break
+            for i in range(5):
+                if(ram['countRAM']*i <= RAMmax):
+                    amount = i
+            serializer = ProductSerializer(product, many=False)
+            tmp = serializer.data
+            tmp["amount"] = amount
+            res["data"].append(tmp)
+
+
     if (category_id == 5):
         res = {}
     if (category_id == 6):
