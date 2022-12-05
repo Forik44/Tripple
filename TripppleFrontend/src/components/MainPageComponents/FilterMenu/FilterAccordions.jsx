@@ -17,22 +17,18 @@ export default function FilterAccordions() {
 
   return (
     <div>
-      <Accordion 
+      <Accordion
+        disableGutters 
+        square
         expanded={expanded === 'panel1'} 
         onChange={handleChange('panel1')}
         sx ={{
-          // backgroundColor:"black",
-            border: "1px solid",
-            borderRadius: "20px",
-          "& .MuiPaper-root":{
-            borderRadius:"100px",
-          }
+          borderRadius : "20px",
         }}
         >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon/>}
           sx = {{
-            borderRadius: "100px",
             flexDirection: 'row-reverse',
               '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
               transform: 'rotate(-90deg)'},
@@ -53,3 +49,5 @@ export default function FilterAccordions() {
     </div>
   );
 }
+
+

@@ -22,13 +22,13 @@ export function FilterMenu(){
               top: "30px",
               width: "100%",
               height: "20%",
-              background: "white",
+              //background: "white",
               display: "flex",
               justifyContent: "start",
               ml: "1rem",
               mr: "1rem",
               mt: "1rem",
-              borderRadius: "20px",
+              //borderRadius: "20px",
           }}>            
           <FilterAccordions/>
         </Box>
