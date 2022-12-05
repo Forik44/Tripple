@@ -178,9 +178,6 @@ def getCategoryInfo(request):
             'max_price': max_price,
             'verbose_name': category.title,
         }
-
-
-
     return Response(res)
 
 from django.contrib.auth.models import User
@@ -334,6 +331,45 @@ def changeAmountBucket(request):
         return Response(status=status.HTTP_200_OK)
     except:
         return Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
+
+from Accessories.models import *
+@api_view(['POST'])
+def getProductForConfigurator(request):
+    category_id = request.data["category_id"]
+    res = {}
+    if (category_id == 1):
+        products = Product.objects.filter(category_id=1)
+        number = 1
+        for product in products:
+            serializer = ProductSerializer(product, many=False)
+            res[number] = serializer.data
+            number += 1
+    if (category_id == 2):
+        res = {}
+    if (category_id == 3):
+        id = request.data["CPU"]
+        CPU_id = Product.objects.get(id=id).accessory_id
+        CPUitem = CPU.objects.get(id=CPU_id)
+        MBs = Motherboard.objects.filter(socket_id=CPUitem.socket_id).values()
+        number = 1
+        for mb in list(MBs):
+            product = Product.objects.get(accessory_id=mb['id'], category_id=category_id)
+            serializer = ProductSerializer(product, many=False)
+            res[number] = serializer.data
+            number += 1
+    if (category_id == 4):
+        
+
+        res = {}
+    if (category_id == 5):
+        res = {}
+    if (category_id == 6):
+        res = {}
+    if (category_id == 7):
+        res = {}
+
+    return Response(res)
+
 
 
 
