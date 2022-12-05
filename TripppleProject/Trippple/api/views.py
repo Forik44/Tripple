@@ -377,7 +377,7 @@ def getProductForConfigurator(request):
                     amount = i
             serializer = ProductSerializer(product, many=False)
             tmp = serializer.data
-            tmp["amount"] = amount
+            tmp["amount"] = min(amount, countRAM)
             res["data"].append(tmp)
 
 
