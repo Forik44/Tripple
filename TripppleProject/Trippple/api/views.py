@@ -348,6 +348,11 @@ def getProductForConfigurator(request):
             res["data"].append(tmp)
 
     if (category_id == 2):
+        id = params[0]
+        CPU_id = Product.objects.get(id=id).accessory_id
+        CPUitem = CPU.objects.get(id=CPU_id)
+        if(CPUitem.is_graphic == True):
+            res["data"].append({id:"-1"})
         products = Product.objects.filter(category_id=2)
         for product in products:
             serializer = ProductSerializer(product, many=False)
