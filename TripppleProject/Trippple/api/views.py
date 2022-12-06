@@ -335,7 +335,8 @@ def changeAmountBucket(request):
 from Accessories.models import *
 @api_view(['POST'])
 def getProductForConfigurator(request):
-    category_id = request.data["category_id"]
+    category_id = request.data["index"]+1
+    params = request.data["data"]
     res = {"data": []}
 
     if (category_id == 1):
@@ -353,7 +354,7 @@ def getProductForConfigurator(request):
             res["data"].append(serializer.data)
 
     if (category_id == 3):
-        id = request.data["cpu"]
+        id = params[0]
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
         MBs = Motherboard.objects.filter(socket_id=CPUitem.socket_id,RAMtype=CPUitem.RAMtype).values()
@@ -363,11 +364,11 @@ def getProductForConfigurator(request):
             res["data"].append(serializer.data)
 
     if (category_id == 4):
-        id = request.data["cpu"]
+        id = params[0]
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
 
-        id = request.data["mb"]
+        id = params[2]
         MB_id = Product.objects.get(id=id).accessory_id
         MBitem = Motherboard.objects.get(id=MB_id)
 
@@ -390,7 +391,7 @@ def getProductForConfigurator(request):
             res["data"].append(tmp)
 
 
-    if (category_id == 5 or category_id == 6):
+    if (category_id == 5):
 
         products = Product.objects.filter(category_id=5)
         for product in products:
@@ -402,18 +403,18 @@ def getProductForConfigurator(request):
             serializer = ProductSerializer(product, many=False)
             res["data"].append(serializer.data)
 
-    if (category_id == 7):
-        id = request.data["cpu"]
+    if (category_id == 6):
+        id = params[0]
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
         TPD = CPUitem.TPD
 
-        id = request.data["gpu"]
+        id = params[1]
         GPU_id = Product.objects.get(id=id).accessory_id
         GPUitem = GPU.objects.get(id=GPU_id)
         TPD += GPUitem.TPD
 
-        ids = request.data["mem"]
+        ids = params[5]
         for id in ids:
             MEM = Product.objects.get(id=id)
             MEM_id = MEM.accessory_id
