@@ -11,4 +11,14 @@ export default class ConfiguratorService {
       throw err;
     }
   }
+  static async postAccess(choosen) {
+    try {
+      const response = await $user_api.post("/configurator_post", {
+        choosen: choosen,
+      });
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

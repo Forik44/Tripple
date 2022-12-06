@@ -31,6 +31,18 @@ const Header = () => {
               >
                 Trippple
               </Button>
+              <Button
+                // color="inherit"
+                size="large"
+                disableRipple
+                variant="raised"
+                sx={{ ml: "2rem", color: "#8300ff" }}
+                onClick={() => {
+                  router("/configurator");
+                }}
+              >
+                Конфигуратор
+              </Button>
             </Box>
           </Grid>
           {!store.isAuth ? (

@@ -435,7 +435,36 @@ def getProductForConfigurator(request):
     return Response(res)
 
 
-
-
+@api_view(['POST'])
+def postConfigurator(request):
+        choosen = request.data["choosen"]
+        token = request.headers["Authorization"].split()[1]
+        user = CustomUser.objects.filter(JWT=token)
+        if user:
+            user = CustomUser.objects.get(JWT=token)
+            for i in range(6):
+                if i!=3 and i!=4:
+                    amount = 1
+                    product_id = choosen[i]
+                    product = Product.objects.get(id=product_id)
+                    if (Bucket.objects.filter(user_id=user, product_id=product)):
+                        bucket = Bucket.objects.get(user_id=user, product_id=product)
+                        bucket.amount += amount
+                        bucket.save(update_fields=["amount"])
+                    else:
+                        Bucket.objects.create(user_id=user, amount=amount, product_id=product)
+                else:
+                    for j in choosen[i]:
+                        amount = j[1]
+                        product_id = j[0]
+                        product = Product.objects.get(id=product_id)
+                        if (Bucket.objects.filter(user_id=user, product_id=product)):
+                            bucket = Bucket.objects.get(user_id=user, product_id=product)
+                            bucket.amount += amount
+                            bucket.save(update_fields=["amount"])
+                        else:
+                            Bucket.objects.create(user_id=user, amount=amount, product_id=product)
+            return Response(status=status.HTTP_200_OK)
+    
 
 

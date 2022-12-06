@@ -21,5 +21,6 @@ urlpatterns = [
     path('addtobucket', views.addBucket, name="GetUser"),
     path('deletefrombucket', views.deleteBucket, name="GetUser"),
     path('changeamountbucket', views.changeAmountBucket, name="GetUser"),
-    path('get_basket', views.getBasket, name ="GetUser")
+    path('get_basket', views.getBasket, name ="GetUser"),
+    path('configurator_post', views.postConfigurator, name ="products")
 ]

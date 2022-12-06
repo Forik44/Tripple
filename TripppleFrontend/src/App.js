@@ -28,10 +28,10 @@ function App() {
               <Route path="shop/:id" element={<AccessoryPage />} />
               <Route path="/sign-up" element={<SignUp />} />
               {store.isAuth && <Route path="basket" element={<Basket />} />}
-              {/* {store.isAuth && (
+              {store.isAuth && (
                 <Route path="/configurator" element={<Configurator />} />
-              )} */}
-              <Route path="/configurator" element={<Configurator />} />
+              )}
+
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>

@@ -58,7 +58,7 @@ const AccAccordion = (props) => {
       )}
       <AccordionDetails>
         {props.id == 4 && (
-          <Typography color="green" sx={{ my: "0.5rem" }} align="center">
+          <Typography color="#66FCF1" sx={{ my: "0.5rem" }} align="center">
             Для данной материнской платы можно добавить три накопителя
           </Typography>
         )}
@@ -72,9 +72,18 @@ const AccAccordion = (props) => {
           />
         ))}
         <Button
+          color="success"
+          size="large"
           disabled={!props.choosen}
           onClick={() => {
             props.changeIndex(props.index + 1);
+          }}
+          sx={{
+            m: "1rem",
+            padding: "8px",
+            borderRadius: "20px",
+            background: "#8300ff",
+            borderRadius: "20px",
           }}
         >
           Сохранить

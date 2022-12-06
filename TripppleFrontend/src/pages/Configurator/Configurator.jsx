@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ConfiguratorService from "../../API/ConfiguretorService";
 import AccAccordion from "./AccAccordion";
+import { useNavigate } from "react-router-dom";
 
 const Configurator = () => {
+  const router = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const handleChange = (id) => (event, newExpanded) =>
     [
@@ -26,6 +28,9 @@ const Configurator = () => {
     "Накопители",
     "Блок питания",
   ];
+  async function postData() {
+    ConfiguratorService.postAccess(choosen);
+  }
   async function fetchData(ind) {
     const response = await ConfiguratorService.getAccess(
       index,
@@ -89,6 +94,46 @@ const Configurator = () => {
             }
           />
         ))}
+        <Box display="flex">
+          <Button
+            onClick={() => {
+              postData();
+              router("/basket");
+              window.scrollTo(0, 0);
+            }}
+            disabled={!choosen[5]}
+            color="success"
+            size="large"
+            sx={{
+              m: "1rem",
+              padding: "8px",
+              borderRadius: "20px",
+              background: "#45A29E",
+              borderRadius: "20px",
+            }}
+          >
+            Сохранить сборку
+          </Button>
+          <Button
+            onClick={() => {
+              setData([[], [], [], [], [], []]);
+              setChoosen([false, false, false, [], [], false]);
+              setExpanded(false);
+              setIndex(0);
+            }}
+            color="success"
+            size="large"
+            sx={{
+              m: "1rem",
+              padding: "8px",
+              borderRadius: "20px",
+              background: "#8300ff",
+              borderRadius: "20px",
+            }}
+          >
+            Сбросить сборку
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
