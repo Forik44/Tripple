@@ -158,9 +158,52 @@ def getProductByUser(request, pk):
 def getCategory(request, pk):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-    products = Product.objects.filter(category_id=pk)[(page - 1) * limit:page * limit]
+    min = int(request.query_params.get('_minprice'))
+    max = int(request.query_params.get('_maxprice'))
+    searchValue = unquote(request.query_params.get('_searchvalue'));
+
+    if searchValue:
+        products = Product.objects.filter(title__icontains=searchValue.lower(),category_id=pk, price__gt=min, price__lte=max)[(page - 1) * limit:page * limit]
+    else:
+        products = Product.objects.filter(category_id=pk, price__gt=min, price__lte=max)[(page - 1) * limit:page * limit]
     serializer = ProductSerializer(products, many=True)
-    responce = Response(serializer.data, headers={"x-total-count": len(Product.objects.filter(category_id=pk))})
+
+    for i in range(len(serializer.data)):
+        serializer.data[i]["isBucket"] = False
+        serializer.data[i]["amount"] = 0
+
+    token = request.headers["Authorization"].split()[1]
+    user = CustomUser.objects.get(JWT=token)
+    if (user):
+        for i in range(len(serializer.data)):
+            bucket = Bucket.objects.filter(user_id=user.id, product_id=serializer.data[i]["id"])
+            if (len(bucket) > 0):
+                bucket = Bucket.objects.get(user_id=user.id, product_id=serializer.data[i]["id"])
+                serializer.data[i]["isBucket"] = True
+                serializer.data[i]["amount"] = bucket.amount
+    responce = Response(serializer.data)
+    responce["x-total-count"] = len(products)
+    return responce
+
+@api_view(['GET'])
+def getCategoryByUser(request, pk):
+    limit = int(request.query_params.get('_limit'))
+    page = int(request.query_params.get('_page'))
+    min = int(request.query_params.get('_minprice'))
+    max = int(request.query_params.get('_maxprice'))
+    searchValue = unquote(request.query_params.get('_searchvalue'));
+
+    if searchValue:
+        products = Product.objects.filter(title__icontains=searchValue.lower(),category_id=pk, price__gt=min, price__lte=max)[(page - 1) * limit:page * limit]
+    else:
+        products = Product.objects.filter(category_id=pk, price__gt=min, price__lte=max)[(page - 1) * limit:page * limit]
+    serializer = ProductSerializer(products, many=True)
+
+    for i in range(len(serializer.data)):
+        serializer.data[i]["isBucket"] = False
+        serializer.data[i]["amount"] = 0
+    responce = Response(serializer.data)
+    responce["x-total-count"] = len(products)
     return responce
 
 from .models import Category
