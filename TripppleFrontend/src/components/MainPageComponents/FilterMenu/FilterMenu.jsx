@@ -19,9 +19,9 @@ export function FilterMenu(){
         <Box
           sx ={{
               position: "sticky",
-              top: "30px",
-              bottom: "0px",
-              width: "100%",
+              top: "3%",
+              //bottom: "0px",
+              width: "90%",
               height: "20%",
               display: "flex",
               justifyContent: "start",

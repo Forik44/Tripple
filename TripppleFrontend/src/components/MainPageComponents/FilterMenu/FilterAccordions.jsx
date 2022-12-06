@@ -97,11 +97,13 @@ export default function FilterAccordions(props) {
               onClick={() => {
                     
               }}
-              variant="outlined"
+              color="success"
               sx = {{
                 padding: "8px",
                 borderRadius: "20px",
-                color: "black"
+                //color: "black",
+                background: "#8300ff",
+                borderRadius: "20px",
               }}
             >
               Применить
