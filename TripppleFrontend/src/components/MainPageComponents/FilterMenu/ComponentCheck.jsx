@@ -50,58 +50,64 @@ export default function ComponentCheck() {
         sx={{ 
             m: 3 ,
             margin: "0px",    
+            //background: "#0e151c",
         }}
         variant="standard"
       >
-        <FormGroup>
+        <FormGroup sx = {{color: "#66FCF1"}}>
             <FormControlLabel
             control={
-              <Checkbox checked={All} onChange={handleChange} name="All" id = "0"/>
+              <Checkbox 
+              color = "success"
+              sx = {{color: "#66FCF1"}}
+              checked={All} onChange={handleChange} name="All" id = "0"/>
             }
             label="Все"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={CPU} onChange={handleChange} name="CPU" id ="1"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={CPU} onChange={handleChange} name="CPU" id ="1"/>
             }
             label="Процессор"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={GPU} onChange={handleChange} name="GPU" id = "2"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={GPU} onChange={handleChange} name="GPU" id = "2"/>
             }
             label="Видеокарта"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={MotherBoard} onChange={handleChange} name="MotherBoard" id = "3"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}}checked={MotherBoard} onChange={handleChange} name="MotherBoard" id = "3"/>
             }
             label="Материнская плата"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={RAM} onChange={handleChange} name="RAM" id = "4"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={RAM} onChange={handleChange} name="RAM" id = "4"/>
             }
             label="Оперативная память"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={HDD} onChange={handleChange} name="HDD" id = "5"/>
+              <Checkbox color = "success"  sx = {{color: "#66FCF1"}} checked={HDD} onChange={handleChange} name="HDD" id = "5"/>
             }
             label="HDD"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={SSD} onChange={handleChange} name="SSD" id = "6"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={SSD} onChange={handleChange} name="SSD" id = "6"/>
             }
             label="SSD"
+            sx = {{color: "#66FCF1"}}
           />
           
           <FormControlLabel
             control={
-              <Checkbox checked={PowerBlock} onChange={handleChange} name="PowerBlock" id = "7"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={PowerBlock} onChange={handleChange} name="PowerBlock" id = "7"/>
             }
             label="Блок питания"
+            sx = {{color: "#66FCF1"}}
           />
         </FormGroup>
         <FormHelperText></FormHelperText>

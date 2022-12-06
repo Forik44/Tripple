@@ -28,6 +28,7 @@ export function FilterMenu(){
               ml: "1rem",
               mr: "1rem",
               mt: "1rem",
+              
           }}>            
           <FilterAccordions/>
         </Box>

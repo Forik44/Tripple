@@ -1,6 +1,6 @@
 export const inputStyle = {
   color: "white",
-  backgroundColor: "#45A29E",
+  backgroundColor: "white",
   borderRadius: "15px",
   input: { color: "black" },
   "& fieldset": { border: "none" },
@@ -13,12 +13,13 @@ export const mainBoxStyle = {
   border: "none",
 };
 export const continueButtonStyle = {
-  background: "purple",
+  background: "#45A29E",
   borderRadius: "20px",
   marginRight: 3,
 };
 export const cancelButtonStyle = {
-  background: "purple",
+  background: "#8300ff",
+  //background: "#ff00fb",
   borderRadius: "20px",
 };
 export const buttonBoxStyle = {

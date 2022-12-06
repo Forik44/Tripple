@@ -9,8 +9,10 @@ import ComponentSelector from './ComponentSelector';
 import ComponentCheck from './ComponentCheck';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
+import { Context } from '../../../App';
 
-export default function FilterAccordions() {
+export default function FilterAccordions(props) {
+  const {store} = React.useContext(Context)
   const [expanded, setExpanded] = React.useState(false);
   const [minInvalidate, setMinInvalidate] = React.useState(false);
   const [maxInvalidate, setMaxInvalidate] = React.useState(false);
@@ -22,25 +24,32 @@ export default function FilterAccordions() {
   return (
     <div>
       <Accordion
-        disableGutters 
+        //disableGutters 
         square
         expanded={expanded === 'panel1'} 
         onChange={handleChange('panel1')}
         sx ={{
           borderRadius : "20px",
+          background: "#0e151c",
         }}
         >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
+          expandIcon={<ExpandMoreIcon sx = {{ color : "#66FCF1"}}/>}
           sx = {{
+            boxShadow: "0px 0px 0px 0px",
             flexDirection: 'row-reverse',
-              '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-              transform: 'rotate(-90deg)'},
+            '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+              transform: 'rotate(-90deg)',},
+            "& .MuiPaper-root":{
+                boxShadow: "none",
+              }
           }}
+          boxShadow = "none"
           aria-controls="panel1bh-content"
           id="panel1bh-header"
+          
         >
-          <Typography>Фильтры</Typography>
+          <Typography sx = {{color : "#66FCF1"}}> Фильтры</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <PriceSlider
@@ -52,15 +61,17 @@ export default function FilterAccordions() {
           <Accordion
             sx ={{
               marginTop: 1,
+              background: "#0e151c",
             }}>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon/>}
+              expandIcon={<ExpandMoreIcon sx = {{ color : "#66FCF1"}}/>}
               sx = {{
                 flexDirection: 'row-reverse',
                   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-                  transform: 'rotate(-90deg)'},
+                  transform: 'rotate(-90deg)',
+                  },
               }}>
-              <Typography>Тип комплектующего</Typography>
+              <Typography sx = {{color : "#66FCF1"}}>Тип комплектующего</Typography>
             </AccordionSummary>
             <AccordionDetails
               sx = {{

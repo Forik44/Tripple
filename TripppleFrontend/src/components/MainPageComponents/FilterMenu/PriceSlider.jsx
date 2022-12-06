@@ -84,7 +84,7 @@ export default function PriceSlider(props) {
     
     if (Array.isArray(valueFromSlider)) {
       props.onChange(false,false);
-      props.onChange(false,false);
+      props.onChange(true,false);
       setInputValue(()=>[valueFromSlider[0],valueFromSlider[1]]);
       return
     }
@@ -136,18 +136,17 @@ export default function PriceSlider(props) {
                 max={maxValue}
                 name = "slider"
                 sx ={{
-                   //color: {},
+                   color: "#66FCF1",
                 }}
             />
         </Grid>
         <Grid item xs={12} sm={6} display="flex">
             <TextField
-                
+                focused
                 name = "min"
                 value={inputValue[0]}
                 size="small"
                 onChange={(e)=>handleInputChange(e,0,0)}
-                
                 inputProps={{
                   
                   name: "min",
@@ -156,6 +155,20 @@ export default function PriceSlider(props) {
                   max: inputValue[1],
                   'aria-labelledby': 'input-min-slider',
                 }}
+                
+                sx = {{
+                  input: { color: "#66FCF1" },
+                  "& fieldset": { 
+                    border: "1px solid #66FCF1",
+                    borderRadius: "6px",
+                    //borderColor: "#66FCF1",
+
+                  },
+                  color: "white",
+                  
+                }}
+
+                color = "success"
                 error = {props.minInvalidate}
                 helperText =  {props.minInvalidate ? "Некорректное значение" : ""}
             />
@@ -163,6 +176,7 @@ export default function PriceSlider(props) {
 
         <Grid item xs={12} sm={6} display="flex">
             <TextField
+                focused
                 name = "max"
                 value={inputValue[1]}
                 size="small"
@@ -173,7 +187,18 @@ export default function PriceSlider(props) {
                   max: maxValue,
                   'aria-labelledby': 'input-max-slider',
                 }}
-                // color = {colorStatus}
+                sx = {{
+                  input: { color: "#66FCF1" },
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#66FCF1',
+                    },
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'yellow',
+                  },
+                }}
+                color = "success"
                 error = {props.maxInvalidate}
                 helperText =  {props.maxInvalidate ? "Некорректное значение" : ""}
             />
