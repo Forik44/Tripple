@@ -417,7 +417,7 @@ def getProductForConfigurator(request):
 
         ids = params[4]
         for id in ids:
-            MEM = Product.objects.get(id=id)
+            MEM = Product.objects.get(id=id[0])
             MEM_id = MEM.accessory_id
             if(MEM.category_id == 5):
                 MEMitem = Memory.objects.get(id=MEM_id)

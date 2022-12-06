@@ -38,14 +38,7 @@ const Configurator = () => {
     });
   }
 
-  const [choosen, setChoosen] = useState([
-    false,
-    false,
-    false,
-    false,
-    [],
-    false,
-  ]);
+  const [choosen, setChoosen] = useState([false, false, false, [], [], false]);
   useEffect(() => {
     try {
       fetchData(index);
