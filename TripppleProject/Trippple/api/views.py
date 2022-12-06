@@ -56,8 +56,9 @@ from urllib.parse import unquote
 def getProducts(request):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-
-    searchValue = unquote(request.query_params.get('_searchValue'));
+    min = int(request.query_params.get('_minprice'))
+    max = int(request.query_params.get('_maxprice'))
+    searchValue = unquote(request.query_params.get('_searchvalue'))
     
     if searchValue:
         products = Product.objects.filter(title__icontains= searchValue.lower())
@@ -102,7 +103,9 @@ def getBasket(request):
 def getProductsByUser(request):
     limit = int(request.query_params.get('_limit'))
     page = int(request.query_params.get('_page'))
-    searchValue = unquote(request.query_params.get('_searchValue'));
+    min = int(request.query_params.get('_minprice'))
+    max = int(request.query_params.get('_maxprice'))
+    searchValue = unquote(request.query_params.get('_searchvalue'))
     if searchValue:
         products = Product.objects.filter(title__icontains= searchValue.lower())
     else:
@@ -160,7 +163,7 @@ def getCategory(request, pk):
     page = int(request.query_params.get('_page'))
     min = int(request.query_params.get('_minprice'))
     max = int(request.query_params.get('_maxprice'))
-    searchValue = unquote(request.query_params.get('_searchvalue'));
+    searchValue = unquote(request.query_params.get('_searchvalue'))
 
     if searchValue:
         products = Product.objects.filter(title__icontains=searchValue.lower(),category_id=pk, price__gt=min, price__lte=max)[(page - 1) * limit:page * limit]
