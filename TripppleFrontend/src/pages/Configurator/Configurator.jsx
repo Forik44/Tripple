@@ -5,6 +5,18 @@ import ConfiguratorService from "../../API/ConfiguretorService";
 import AccAccordion from "./AccAccordion";
 
 const Configurator = () => {
+  const [expanded, setExpanded] = useState(false);
+  const handleChange = (id) => (event, newExpanded) =>
+    [
+      setExpanded((prev) => {
+        if (!newExpanded) {
+          return false;
+        } else {
+          return id;
+        }
+      }),
+      console.log(expanded),
+    ];
   const [index, setIndex] = useState(0);
   const title = [
     "Процессор",
@@ -31,7 +43,7 @@ const Configurator = () => {
     false,
     false,
     false,
-    false,
+    [],
     false,
   ]);
   useEffect(() => {
@@ -64,76 +76,26 @@ const Configurator = () => {
         >
           Соберите нужный вам набор комплектующих
         </Typography>
-        {title.map((item, index) => (
+        {title.map((item, ind) => (
           <AccAccordion
             index={index}
             changeIndex={(i) => setIndex(i)}
-            key={item}
+            key={ind}
+            id={ind}
+            expanded={expanded}
+            changeExpanded={() => handleChange(ind)}
             title={item}
-            data={data[index]}
-            choosen={choosen[index]}
+            data={data[ind]}
+            choosen={choosen[ind]}
             changeChoosen={(id) =>
               setChoosen((prev) => {
                 const arr = [...prev];
-                arr[index] = id;
+                arr[ind] = id;
                 return arr;
               })
             }
           />
         ))}
-        {/* <Accordion sx={{ width: "100%", backgroundColor: "#0e151c" }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon sx={{ color: "#66FCF1" }} />}
-            sx={{
-              flexDirection: "row-reverse",
-              "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-                transform: "rotate(-90deg)",
-              },
-            }}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography color="#66FCF1">Процессор</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {apu.map((item) => (
-              <AccessoryConfCard
-                key={item.title}
-                data={item}
-                choosen={choosen}
-                changeChoosen={(id) => setChoosen(id)}
-              />
-            ))}
-            <Button disabled={!choosen} onClick={() => setCpuId(choosen)}>
-              Сохранить
-            </Button>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion sx={{ width: "100%", backgroundColor: "#0e151c" }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon sx={{ color: "#66FCF1" }} />}
-            sx={{
-              flexDirection: "row-reverse",
-              "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-                transform: "rotate(-90deg)",
-              },
-            }}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography color="#66FCF1">Материнская плата</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {mb.map((item) => (
-              <AccessoryConfCard
-                key={item.title}
-                data={item}
-                choosen={choosen1}
-                changeChoosen={(id) => setChoosen1(id)}
-              />
-            ))}
-          </AccordionDetails>
-        </Accordion> */}
       </Box>
     </Box>
   );

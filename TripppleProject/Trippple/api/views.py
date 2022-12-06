@@ -414,7 +414,7 @@ def getProductForConfigurator(request):
         GPUitem = GPU.objects.get(id=GPU_id)
         TPD += GPUitem.TPD
 
-        ids = params[5]
+        ids = params[4]
         for id in ids:
             MEM = Product.objects.get(id=id)
             MEM_id = MEM.accessory_id
@@ -427,7 +427,7 @@ def getProductForConfigurator(request):
 
         PSs = PS.objects.filter(power__gt = TPD*1.3).values()
         for ps in list(PSs):
-            product = Product.objects.get(accessory_id=ps['id'], category_id=category_id)
+            product = Product.objects.get(accessory_id=ps['id'], category_id=7)
             serializer = ProductSerializer(product, many=False)
             res["data"].append(serializer.data)
 

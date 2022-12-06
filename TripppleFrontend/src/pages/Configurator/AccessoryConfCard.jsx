@@ -51,15 +51,30 @@ const AccessoryConfCard = (props) => {
             <Checkbox
               sx={{ color: "#66FCF1" }}
               color="success"
-              disabled={props.choosen && !choose}
+              disabled={
+                (props.type != 4 && props.choosen && !choose) ||
+                (props.type == 4 && props.choosen.length > 2 && !choose)
+              }
               checked={choose}
               onChange={() => {
-                if (choose) {
-                  props.changeChoosen(false);
-                  setChoose((prev) => !prev);
+                if (props.type != 4) {
+                  if (choose) {
+                    props.changeChoosen(false);
+                    setChoose((prev) => !prev);
+                  } else {
+                    props.changeChoosen(data.id);
+                    setChoose((prev) => !prev);
+                  }
                 } else {
-                  props.changeChoosen(data.id);
-                  setChoose((prev) => !prev);
+                  if (choose) {
+                    props.changeChoosen(
+                      props.choosen.filter((i) => i != data.id)
+                    );
+                    setChoose((prev) => !prev);
+                  } else {
+                    props.changeChoosen([...props.choosen, data.id]);
+                    setChoose((prev) => !prev);
+                  }
                 }
               }}
             />
@@ -84,7 +99,7 @@ const AccessoryConfCard = (props) => {
                 setColor("#66FCF1");
               }}
               onClick={() => {
-                router(`/shop/${props.data.id}`);
+                window.open(`http://127.0.0.1:3000/shop/${data.id}`);
                 window.scrollTo(0, 0);
               }}
             >
