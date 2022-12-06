@@ -29,6 +29,9 @@ const MainPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchTempValue, setSearchTempValue] = useState("");
 
+  const [Value, setFilterValue] = useState([0,99999,0]);
+
+
   async function fetchEvents() {
     let response = {};
     if (localStorage.getItem("token")) {
@@ -69,7 +72,7 @@ const MainPage = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [actualPage, searchValue]);
+  }, [actualPage, searchValue, ]);
 
   return (
     <>

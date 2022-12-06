@@ -5,6 +5,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PriceSlider from './PriceSlider';
+import ComponentSelector from './ComponentSelector';
+import ComponentCheck from './ComponentCheck';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
 
 export default function FilterAccordions() {
   const [expanded, setExpanded] = React.useState(false);
@@ -44,7 +48,54 @@ export default function FilterAccordions() {
             maxInvalidate ={maxInvalidate}
             onChange = {(flag, newValue)=>{flag? setMinInvalidate(newValue): setMaxInvalidate(newValue)}}
             />
+
+          <Accordion
+            sx ={{
+              marginTop: 1,
+            }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon/>}
+              sx = {{
+                flexDirection: 'row-reverse',
+                  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+                  transform: 'rotate(-90deg)'},
+              }}>
+              <Typography>Тип комплектующего</Typography>
+            </AccordionSummary>
+            <AccordionDetails
+              sx = {{
+                padding:"0px 16px 16px",
+              }}  
+            >
+              <ComponentCheck/>
+            </AccordionDetails>
+          </Accordion>
         </AccordionDetails>
+
+              
+        <Box 
+        sx = {{
+          justifyContent: "center",
+          display: "flex",
+          alignItems:"center",
+          marginBottom: "16px",
+        }}>
+          <Button
+              size="small"
+              
+              onClick={() => {
+                    
+              }}
+              variant="outlined"
+              sx = {{
+                padding: "8px",
+                borderRadius: "20px",
+                color: "black"
+              }}
+            >
+              Применить
+            </Button>
+        </Box>
       </Accordion>     
     </div>
   );
