@@ -41,41 +41,32 @@ export default function PriceSlider(props) {
     }
     if (activeThumb === 0) {
       if (checkInput) {
-        if(newValue[0]>sliderValue[1]){
+        if(newValue[0]>props.filterPrice[1]){
           console.log("error");
         }
         else{
           props.onChange(true,false);
-          setSliderValue(()=>{
-            console.log(newValue);
-            return [Math.min(newValue[0], newValue[1] - minDistance), newValue[1]]
-          });
+          props.onPriceChange([Math.min(newValue[0], newValue[1] - minDistance), newValue[1]]);
         }
       }
       else{
         handleInputChange(0,0,newValue);
-        setSliderValue(()=>{
-          return [Math.min(newValue[0], sliderValue[1] - minDistance), sliderValue[1]]
-        });
+        props.onPriceChange([Math.min(newValue[0], props.filterPrice[1] - minDistance), props.filterPrice[1]]);
       }
     } else {
       if (checkInput) {
-        if(newValue[1]<sliderValue[0]){
+        if(newValue[1]<props.filterPrice[0]){
           console.log("error");
         }
         else{
           props.onChange(false,false);
-          setSliderValue(()=>{
-            console.log(newValue);
-            return [newValue[0], Math.max(newValue[1], newValue[0] + minDistance)];
-          });
+          props.onPriceChange([newValue[0], Math.max(newValue[1], newValue[0] + minDistance)]);
+
         }
       }
       else{
-      setSliderValue(()=>{
         handleInputChange(0,0,newValue);
-        return[sliderValue[0], Math.max(newValue[1], sliderValue[0] + minDistance)];
-        })
+        props.onPriceChange([props.filterPrice[0], Math.max(newValue[1], props.filterPrice[0] + minDistance)]);
       }
     }
   };
@@ -127,7 +118,7 @@ export default function PriceSlider(props) {
         <Grid item xs={12} sm={12} display="flex" justifyContent={"center"}>
             <Slider
                 getAriaLabel={() => 'Minimum distance'}
-                value={sliderValue}
+                value={props.filterPrice}
                 onChange={handleSliderChange}
                 valueLabelDisplay="off"
                 getAriaValueText={valuetext}

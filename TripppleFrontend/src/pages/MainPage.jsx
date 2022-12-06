@@ -29,12 +29,34 @@ const MainPage = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [searchTempValue, setSearchTempValue] = useState("");
-
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(99999);
-  const [category, setCategory] = useState(-1);
-  const [filterApplied, setFilterApplied] = useState(false);
-
+  
+  async function fetchAccessByCategory(){
+    let response = {};
+    if (localStorage.getItem("token")) {
+      response = await AccessoryService.getCategoryByUser(
+        limit,
+        actualPage,
+        searchValue,
+        store.minPrice,
+        store.maxPrice,
+        store.category
+      );
+    } else {
+      response = await AccessoryService.getCategory(
+        limit,
+        actualPage,
+        searchValue,
+        store.minPrice,
+        store.maxPrice,
+        store.category
+      );
+    }
+    setData([...response.data]);
+    setTotalCount(Number(response.headers["x-total-count"]));
+    setTotalPages(
+      getPagesCount(Number(response.headers["x-total-count"]), limit)
+    );
+  }
   async function fetchEvents() {
     let response = {};
     if (localStorage.getItem("token")) {
@@ -42,18 +64,16 @@ const MainPage = () => {
         limit,
         actualPage,
         searchValue,
-        minPrice,
-        maxPrice,
-        category,
+        store.minPrice,
+        store.maxPrice,
       );
     } else {
       response = await AccessoryService.getAllAccessory(
         limit,
         actualPage,
         searchValue,
-        minPrice,
-        maxPrice,
-        category,
+        store.minPrice,
+        store.maxPrice,
       );
     }
     setData([...response.data]);
@@ -80,8 +100,14 @@ const MainPage = () => {
   }, [store.isAuth]);
 
   useEffect(() => {
-    fetchEvents();
-  }, [actualPage, searchValue, filterApplied]);
+    if(store.category==0){
+      fetchEvents();
+    }
+    else {
+      fetchAccessByCategory()
+    }
+    
+  }, [actualPage, searchValue, store.maxPrice, store.minPrice, store.category]);
 
   return (
     <>

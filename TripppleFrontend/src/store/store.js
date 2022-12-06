@@ -6,7 +6,9 @@ export default class Store {
   user = {};
   isAuth = false;
   minPrice = 0;
+  category = 0;
   maxPrice = 99999;
+
 
   constructor() {
     makeAutoObservable(this);
@@ -17,12 +19,18 @@ export default class Store {
   setUser(user) {
     this.user = user;
   }
+  setCategory(id){
+    this.category = id;
+  }
+
   setMinPrice(price){
-    this.minPrice=price
+    this.minPrice = price
   }
+
   setMaxPrice(price){
-    this.maxPrice = price
+    this.maxPrice =price
   }
+
   async appendBucketItem(id) {
     // this.user.bucket.push({ id: id, amount: 1 });
     await UserService.addToBucket(id);

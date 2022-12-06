@@ -16,6 +16,8 @@ export default function FilterAccordions(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [minInvalidate, setMinInvalidate] = React.useState(false);
   const [maxInvalidate, setMaxInvalidate] = React.useState(false);
+  const [filterPrice, setFilterPrice] = React.useState([0,99999]);
+  const [category, setCategory] = React.useState("0");
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -53,6 +55,8 @@ export default function FilterAccordions(props) {
         </AccordionSummary>
         <AccordionDetails>
           <PriceSlider
+            filterPrice={filterPrice}
+            onPriceChange = {(newValue) => {setFilterPrice(newValue)}}
             minInvalidate={minInvalidate}
             maxInvalidate ={maxInvalidate}
             onChange = {(flag, newValue)=>{flag? setMinInvalidate(newValue): setMaxInvalidate(newValue)}}
@@ -78,7 +82,10 @@ export default function FilterAccordions(props) {
                 padding:"0px 16px 16px",
               }}  
             >
-              <ComponentCheck/>
+              <ComponentCheck
+                category = {category}
+                onChange = {(id) => {setCategory(id)}}
+              />
             </AccordionDetails>
           </Accordion>
         </AccordionDetails>
@@ -95,7 +102,9 @@ export default function FilterAccordions(props) {
               size="small"
               
               onClick={() => {
-                    
+                store.setCategory(category)
+                store.setMaxPrice(filterPrice[1])
+                store.setMinPrice(filterPrice[0])
               }}
               color="success"
               sx = {{

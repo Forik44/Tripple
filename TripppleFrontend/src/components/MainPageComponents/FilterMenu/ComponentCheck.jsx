@@ -6,39 +6,39 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
+import { observer } from 'mobx-react-lite';
 
-export default function ComponentCheck() {
-  const [state, setState] = React.useState({
-    All: true,
-    CPU: false,
-    GPU: false,
-    MotherBoard: false,
-    PowerBlock: false,
-    SSD: false,
-    HDD: false,
-    RAM: false,
+const ComponentCheck= (props) => {
+  
+    const [state, setState] = React.useState({
+    '0': true,
+    '1': false,
+    '2': false,
+    '3': false,
+    '4': false,
+    '5': false,
+    '6': false,
+    '7': false,
     });
-    const [currentChecked, setCurrentChecked] = React.useState("All")
     
 
   const handleChange = (event) => {
-    if (event.target.name === currentChecked) {
+    if (event.target.id === props.category) {
         setState({
             ...state,
-            [All] : true,
         })
     }
     else{
         setState({
             ...state,
-            [currentChecked]: false,
-            [event.target.name]: event.target.checked,
+            [props.category]: false,
+            [event.target.id]: event.target.checked,
+
         });
-        setCurrentChecked(event.target.name);
+        props.onChange(event.target.id)
     }
   };
 
-  const { All, CPU, GPU, MotherBoard, PowerBlock, SSD, HDD, RAM } = state;
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -60,43 +60,43 @@ export default function ComponentCheck() {
               <Checkbox 
               color = "success"
               sx = {{color: "#66FCF1"}}
-              checked={All} onChange={handleChange} name="All" id = "0"/>
+              checked={state['0']} onChange={handleChange} name="All" id = "0"/>
             }
             label="Все"
           />
           <FormControlLabel
             control={
-              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={CPU} onChange={handleChange} name="CPU" id ="1"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={state['1']} onChange={handleChange} name="CPU" id ="1"/>
             }
             label="Процессор"
           />
           <FormControlLabel
             control={
-              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={GPU} onChange={handleChange} name="GPU" id = "2"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={state['2']} onChange={handleChange} name="GPU" id = "2"/>
             }
             label="Видеокарта"
           />
           <FormControlLabel
             control={
-              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}}checked={MotherBoard} onChange={handleChange} name="MotherBoard" id = "3"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}}checked={state['3']} onChange={handleChange} name="MotherBoard" id = "3"/>
             }
             label="Материнская плата"
           />
           <FormControlLabel
             control={
-              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={RAM} onChange={handleChange} name="RAM" id = "4"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={state['4']} onChange={handleChange} name="RAM" id = "4"/>
             }
             label="Оперативная память"
           />
           <FormControlLabel
             control={
-              <Checkbox color = "success"  sx = {{color: "#66FCF1"}} checked={HDD} onChange={handleChange} name="HDD" id = "5"/>
+              <Checkbox color = "success"  sx = {{color: "#66FCF1"}} checked={state['5']} onChange={handleChange} name="HDD" id = "5"/>
             }
             label="HDD"
           />
           <FormControlLabel
             control={
-              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={SSD} onChange={handleChange} name="SSD" id = "6"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={state['6']} onChange={handleChange} name="SSD" id = "6"/>
             }
             label="SSD"
             sx = {{color: "#66FCF1"}}
@@ -104,7 +104,7 @@ export default function ComponentCheck() {
           
           <FormControlLabel
             control={
-              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={PowerBlock} onChange={handleChange} name="PowerBlock" id = "7"/>
+              <Checkbox  color = "success"  sx = {{color: "#66FCF1"}} checked={state['7']} onChange={handleChange} name="PowerBlock" id = "7"/>
             }
             label="Блок питания"
             sx = {{color: "#66FCF1"}}
@@ -115,3 +115,4 @@ export default function ComponentCheck() {
     </Box>
   );
 }
+export default observer(ComponentCheck)
