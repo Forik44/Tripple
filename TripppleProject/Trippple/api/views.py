@@ -410,9 +410,10 @@ def getProductForConfigurator(request):
         TPD = CPUitem.TPD
 
         id = params[1]
-        GPU_id = Product.objects.get(id=id).accessory_id
-        GPUitem = GPU.objects.get(id=GPU_id)
-        TPD += GPUitem.TPD
+        if(id != -1):
+            GPU_id = Product.objects.get(id=id).accessory_id
+            GPUitem = GPU.objects.get(id=GPU_id)
+            TPD += GPUitem.TPD
 
         ids = params[4]
         for id in ids:

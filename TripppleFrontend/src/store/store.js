@@ -5,6 +5,8 @@ import UserService from "../API/UserService";
 export default class Store {
   user = {};
   isAuth = false;
+  minPrice = 0;
+  maxPrice = 99999;
 
   constructor() {
     makeAutoObservable(this);
@@ -14,6 +16,12 @@ export default class Store {
   }
   setUser(user) {
     this.user = user;
+  }
+  setMinPrice(price){
+    this.minPrice=price
+  }
+  setMaxPrice(price){
+    this.maxPrice = price
   }
   async appendBucketItem(id) {
     // this.user.bucket.push({ id: id, amount: 1 });

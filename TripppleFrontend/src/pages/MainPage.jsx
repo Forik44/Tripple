@@ -11,6 +11,7 @@ import AccessoryService from "../API/AccessoryService";
 import SearchPanel from "../components/MainPageComponents/SearchPanel";
 import { Context } from "../App";
 const MainPage = () => {
+  
   //состояние, в котором хранится информация о всех комплектующих
   const [data, setData] = useState([]);
   //состояние, в котором хранится номер выбранной категории комплектующего
@@ -29,19 +30,30 @@ const MainPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchTempValue, setSearchTempValue] = useState("");
 
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(99999);
+  const [category, setCategory] = useState(-1);
+  const [filterApplied, setFilterApplied] = useState(false);
+
   async function fetchEvents() {
     let response = {};
     if (localStorage.getItem("token")) {
       response = await AccessoryService.getAllAccessoryByUser(
         limit,
         actualPage,
-        searchValue
+        searchValue,
+        minPrice,
+        maxPrice,
+        category,
       );
     } else {
       response = await AccessoryService.getAllAccessory(
         limit,
         actualPage,
-        searchValue
+        searchValue,
+        minPrice,
+        maxPrice,
+        category,
       );
     }
     setData([...response.data]);
@@ -69,7 +81,7 @@ const MainPage = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [actualPage, searchValue]);
+  }, [actualPage, searchValue, filterApplied]);
 
   return (
     <>

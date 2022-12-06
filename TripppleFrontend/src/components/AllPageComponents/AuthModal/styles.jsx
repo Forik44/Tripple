@@ -13,7 +13,9 @@ export const modalBoxStyle = {
 };
 export const inputStyle = {
   color: "white",
-  backgroundColor: "#45A29E",
+  //backgroundColor: "#45A29E",
+  //backgroundColor: "#284046",
+  backgroundColor: "white",
   borderRadius: "15px",
   input: { color: "black" },
   "& fieldset": { border: "none" },
@@ -27,10 +29,10 @@ export const buttonContainer = {
   justifyContent: "space-around",
 };
 export const loginButtonStyle = {
-  background: "purple",
+  background: "#45A29E",
   borderRadius: "20px",
 };
 export const cancelButtonStyle = {
-  background: "purple",
+  background: "#8300ff",
   borderRadius: "20px",
 };
