@@ -10,6 +10,7 @@ import Store from "./store/store";
 import { createContext } from "react";
 import { observer } from "mobx-react-lite";
 import Basket from "./pages/Basket/Basket";
+import Configurator from "./pages/Configurator/Configurator";
 
 const store = new Store();
 export const Context = createContext({
@@ -26,7 +27,11 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="shop/:id" element={<AccessoryPage />} />
               <Route path="/sign-up" element={<SignUp />} />
-              {store.isAuth && <Route path="/basket" element={<Basket />} />}
+              {store.isAuth && <Route path="basket" element={<Basket />} />}
+              {/* {store.isAuth && (
+                <Route path="/configurator" element={<Configurator />} />
+              )} */}
+              <Route path="/configurator" element={<Configurator />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>
