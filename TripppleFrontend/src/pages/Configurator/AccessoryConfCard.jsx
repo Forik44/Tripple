@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useModal } from "../../hooks/useModal";
 import {
   Card,
   CardMedia,
@@ -11,20 +10,25 @@ import {
   Stack,
   Box,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { Context } from "../../App";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { observer } from "mobx-react-lite";
 import Checkbox from "@mui/material/Checkbox";
-
 const AccessoryConfCard = (props) => {
   const { store } = useContext(Context);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [color, setColor] = useState("#66FCF1");
   const [data, setData] = useState(props.data);
-  const router = useNavigate();
   const [choose, setChoose] = useState(false);
+  function ChangeAmount(count) {
+    let new_amount = amount + count;
+    setAmount(new_amount);
+    props.changeChoosen([
+      ...props.choosen.filter((i) => i[0] != data.id),
+      [data.id, new_amount],
+    ]);
+  }
 
   return (
     <Card
@@ -39,7 +43,7 @@ const AccessoryConfCard = (props) => {
       }}
     >
       <Grid container sx={{ alignItems: "center" }}>
-        <Grid item xs={12} sm={2} display="flex" justifyContent={"center"}>
+        <Grid item xs={12} md={2} display="flex" justifyContent={"center"}>
           <CardActions
             sx={{
               display: "flex",
@@ -52,12 +56,16 @@ const AccessoryConfCard = (props) => {
               sx={{ color: "#66FCF1" }}
               color="success"
               disabled={
-                (props.type != 4 && props.choosen && !choose) ||
-                (props.type == 4 && props.choosen.length > 2 && !choose)
+                (props.type != 4 &&
+                  props.type != 3 &&
+                  props.choosen &&
+                  !choose) ||
+                (props.type == 4 && props.choosen.length > 2 && !choose) ||
+                (props.type == 3 && props.choosen.length > 0 && !choose)
               }
               checked={choose}
               onChange={() => {
-                if (props.type != 4) {
+                if (props.type != 4 && props.type != 3) {
                   if (choose) {
                     props.changeChoosen(false);
                     setChoose((prev) => !prev);
@@ -68,11 +76,12 @@ const AccessoryConfCard = (props) => {
                 } else {
                   if (choose) {
                     props.changeChoosen(
-                      props.choosen.filter((i) => i != data.id)
+                      props.choosen.filter((i) => i[0] != data.id)
                     );
                     setChoose((prev) => !prev);
+                    setAmount(1);
                   } else {
-                    props.changeChoosen([...props.choosen, data.id]);
+                    props.changeChoosen([...props.choosen, [data.id, amount]]);
                     setChoose((prev) => !prev);
                   }
                 }
@@ -80,7 +89,7 @@ const AccessoryConfCard = (props) => {
             />
           </CardActions>
         </Grid>
-        <Grid item xs={12} sm={7}>
+        <Grid item xs={12} md={7}>
           <CardContent
             sx={{
               flexGrow: 1,
@@ -114,11 +123,42 @@ const AccessoryConfCard = (props) => {
               }}
             >
               <Typography color="white">Цена: {data.price}</Typography>
+              {props.type == 3 && choose && (
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  sx={{ mb: "0.5rem" }}
+                >
+                  <Button
+                    disableRipple
+                    variant="raised"
+                    onClick={() => {
+                      if (amount != 1) {
+                        ChangeAmount(-1);
+                      }
+                    }}
+                  >
+                    <RemoveIcon sx={{ color: "#66FCF1" }} />
+                  </Button>
+                  <span style={{ color: "#66FCF1" }}>{amount}</span>
+                  <Button
+                    disableRipple
+                    variant="raised"
+                    onClick={() => {
+                      if (amount < data.amount) {
+                        ChangeAmount(1);
+                      }
+                    }}
+                  >
+                    <AddIcon sx={{ color: "#66FCF1" }} />
+                  </Button>
+                </Stack>
+              )}
             </Box>
           </CardContent>
         </Grid>
 
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} md={3}>
           <CardMedia
             sx={{ width: "80%", ml: "2rem", my: "1rem" }}
             component="img"
