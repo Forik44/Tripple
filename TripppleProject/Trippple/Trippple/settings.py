@@ -81,11 +81,12 @@ WSGI_APPLICATION = 'Trippple.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'freedb_tripppleback',
-        'USER': 'freedb_forikpoi',
-        'PASSWORD': 'gM#YE?m2tMrfU5f',
-        'HOST': 'sql.freedb.tech',
+        'NAME': 'db_django',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'db',
         'PORT': '3306',
+        'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
 
