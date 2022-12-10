@@ -11,32 +11,22 @@ import AccessoryService from "../API/AccessoryService";
 import SearchPanel from "../components/MainPageComponents/SearchPanel";
 import { Context } from "../App";
 const MainPage = () => {
-  
-  //состояние, в котором хранится информация о всех комплектующих
   const [data, setData] = useState([]);
-  //состояние, в котором хранится номер выбранной категории комплектующего
-  //   const [selectCategory, setSelectCategory] = useState(0);
 
-  //состояние, в котором хранится номер открытой в данный момент страницы в списке мероприятий
-  const [actualPage, setActualPage] = useState(1);
-  //состояние, в котором хранится общее количество мероприятий
   const [totalCount, setTotalCount] = useState(0);
-  //состояние, в котором хранится лимит на количество ивентов на одной странице
+
   const [limit, setLimit] = useState(4);
-  //состояние, в котором хранится общее количество страниц
+
   const [totalPages, setTotalPages] = useState(0);
   const { store } = useContext(Context);
 
-  const [searchValue, setSearchValue] = useState("");
-  const [searchTempValue, setSearchTempValue] = useState("");
-  
-  async function fetchAccessByCategory(){
+  async function fetchAccessByCategory() {
     let response = {};
     if (localStorage.getItem("token")) {
       response = await AccessoryService.getCategoryByUser(
         limit,
-        actualPage,
-        searchValue,
+        store.page,
+        store.actualSearch,
         store.minPrice,
         store.maxPrice,
         store.category
@@ -44,8 +34,8 @@ const MainPage = () => {
     } else {
       response = await AccessoryService.getCategory(
         limit,
-        actualPage,
-        searchValue,
+        store.page,
+        store.actualSearch,
         store.minPrice,
         store.maxPrice,
         store.category
@@ -62,18 +52,18 @@ const MainPage = () => {
     if (localStorage.getItem("token")) {
       response = await AccessoryService.getAllAccessoryByUser(
         limit,
-        actualPage,
-        searchValue,
+        store.page,
+        store.actualSearch,
         store.minPrice,
-        store.maxPrice,
+        store.maxPrice
       );
     } else {
       response = await AccessoryService.getAllAccessory(
         limit,
-        actualPage,
-        searchValue,
+        store.page,
+        store.actualSearch,
         store.minPrice,
-        store.maxPrice,
+        store.maxPrice
       );
     }
     setData([...response.data]);
@@ -83,7 +73,7 @@ const MainPage = () => {
     );
   }
   useEffect(() => {
-    if (actualPage == 1) {
+    if (store.page == 1) {
       if (!store.isAuth) {
         setData(
           data.map((item) => {
@@ -94,20 +84,24 @@ const MainPage = () => {
         fetchEvents();
       }
     }
-    setActualPage(1);
-    setSearchTempValue("");
-    setSearchValue("");
+    store.setPage(1);
+    store.setActualSearch("");
+    store.setTempSearch("");
   }, [store.isAuth]);
 
   useEffect(() => {
-    if(store.category==0){
+    if (store.category == 0) {
       fetchEvents();
+    } else {
+      fetchAccessByCategory();
     }
-    else {
-      fetchAccessByCategory()
-    }
-    
-  }, [actualPage, searchValue, store.maxPrice, store.minPrice, store.category]);
+  }, [
+    store.page,
+    store.actualSearch,
+    store.maxPrice,
+    store.minPrice,
+    store.category,
+  ]);
 
   return (
     <>
@@ -131,10 +125,7 @@ const MainPage = () => {
             alignItems="center"
             sx={{ my: "1rem" }}
           >
-            <SearchPanel
-              value={searchTempValue}
-              onChange={(str) => setSearchTempValue(str)}
-            />
+            <SearchPanel />
           </Grid>
           <Grid
             item
@@ -151,8 +142,8 @@ const MainPage = () => {
               size="small"
               color="success"
               onClick={() => {
-                setSearchValue(searchTempValue);
-                setActualPage(1);
+                store.setActualSearch(store.tempSearch);
+                store.setPage(1);
               }}
               variant="outlined"
             >
@@ -161,12 +152,7 @@ const MainPage = () => {
           </Grid>
         </Grid>
 
-        <AccessoryList
-          data={data}
-          actualPage={actualPage}
-          setActualPage={setActualPage}
-          totalPages={totalPages}
-        />
+        <AccessoryList data={data} totalPages={totalPages} />
       </Container>
     </>
   );

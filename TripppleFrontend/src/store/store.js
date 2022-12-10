@@ -8,10 +8,21 @@ export default class Store {
   minPrice = 0;
   category = 0;
   maxPrice = 99999;
-
+  page = 1;
+  tempSearch = "";
+  actualSearch = "";
 
   constructor() {
     makeAutoObservable(this);
+  }
+  setTempSearch(str) {
+    this.tempSearch = str;
+  }
+  setActualSearch(str) {
+    this.actualSearch = str;
+  }
+  setPage(page) {
+    this.page = page;
   }
   setAuth(bool) {
     this.isAuth = bool;
@@ -19,29 +30,25 @@ export default class Store {
   setUser(user) {
     this.user = user;
   }
-  setCategory(id){
+  setCategory(id) {
     this.category = id;
   }
 
-  setMinPrice(price){
-    this.minPrice = price
+  setMinPrice(price) {
+    this.minPrice = price;
   }
 
-  setMaxPrice(price){
-    this.maxPrice =price
+  setMaxPrice(price) {
+    this.maxPrice = price;
   }
 
   async appendBucketItem(id) {
-    // this.user.bucket.push({ id: id, amount: 1 });
     await UserService.addToBucket(id);
   }
   async deleteBucketItem(id) {
-    // this.user.bucket = this.user.bucket.filter((inf) => inf["id"] != id);
     await UserService.deleteFromBucket(id);
   }
   async changeAmountInBucket(id, amount) {
-    // let index = this.user.bucket.findIndex((obj) => obj.id == id);
-    // this.user.bucket[index].amount = amount;
     await UserService.changeAmountItem(id, amount);
   }
 

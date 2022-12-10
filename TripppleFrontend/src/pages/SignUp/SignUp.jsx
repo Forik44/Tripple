@@ -39,16 +39,23 @@ const SignUp = () => {
   } = useForm({ mode: "onChange" });
   const { errors } = useFormState({ control });
   const router = useNavigate();
-  const onSubmit = (data) => {
-    store.registration(
-      data.email,
-      data.password,
-      data.name,
-      data.lastName,
-      data.phone
-    );
-    router("/");
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      store.registration(
+        data.email,
+        data.password,
+        data.name,
+        data.lastName,
+        data.phone
+      );
+      store.setUser({
+        name: data.name,
+        lastName: data.lastName,
+      });
+
+      router("/");
+      reset();
+    } catch (err) {}
   };
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -142,7 +149,7 @@ const SignUp = () => {
               <TextField
                 sx={inputStyle}
                 variant="outlined"
-                plaxeholder="email..."
+                placeholder="Email..."
                 size="small"
                 margin="normal"
                 fullWidth={true}

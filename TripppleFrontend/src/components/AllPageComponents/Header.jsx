@@ -1,11 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AppBar, Button, Toolbar, Grid, Box } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  Grid,
+  Box,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Context } from "../../App";
 import { useModal } from "../../hooks/useModal";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
 
 const Header = () => {
   const { store } = useContext(Context);
@@ -17,32 +26,49 @@ const Header = () => {
       <Toolbar>
         <Grid container>
           <Grid item xs={6} sm={7} md={9}>
-            <Box sx={{ textAlign: "left", m: 1, mt: 1.5 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+
+                m: 1,
+                mt: 1.5,
+              }}
+            >
               {/* кнопка-логотип */}
               <Button
                 // color="inherit"
                 size="large"
                 disableRipple
                 variant="raised"
-                sx={{ ml: "3rem", color: "#8300ff" }}
+                sx={{ ml: "3rem", color: "#66FCF1" }}
                 onClick={() => {
                   router("/");
                 }}
               >
                 Trippple
               </Button>
-              <Button
-                // color="inherit"
-                size="large"
-                disableRipple
-                variant="raised"
-                sx={{ ml: "2rem", color: "#8300ff" }}
-                onClick={() => {
-                  router("/configurator");
-                }}
-              >
-                Конфигуратор
-              </Button>
+              {store.isAuth && (
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography
+                    sx={{ cursor: "pointer", mt: "0.3rem", ml: "1rem" }}
+                    gutterBottom
+                    variant="body1"
+                    component="div"
+                    color="#66FCF1"
+                    onClick={() => {
+                      router("/configurator");
+                    }}
+                  >
+                    Конфигуратор
+                  </Typography>
+                  <DesignServicesIcon
+                    sx={{ color: "#66FCF1", cursor: "pointer" }}
+                    fontSize="small"
+                    onClick={() => router("/configurator")}
+                  />
+                </Stack>
+              )}
             </Box>
           </Grid>
           {!store.isAuth ? (

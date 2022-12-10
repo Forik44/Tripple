@@ -1,6 +1,10 @@
 import { TextField, Container, Typography } from "@mui/material";
+import { useContext } from "react";
+import { Context } from "../../App";
+import { observer } from "mobx-react-lite";
 
-const SearchPanel = (props) => {
+const SearchPanel = () => {
+  const { store } = useContext(Context);
   return (
     <TextField
       sx={{
@@ -11,10 +15,9 @@ const SearchPanel = (props) => {
         placeholder: { color: "white" },
         "& fieldset": { border: "none" },
       }}
-      value={props.value}
+      value={store.tempSearch}
       onChange={(e) => {
-        props.onChange(e.target.value);
-        console.log(e.target.value);
+        store.setTempSearch(e.target.value);
       }}
       id="outlined-basic"
       placeholder="Поиск..."
@@ -24,4 +27,4 @@ const SearchPanel = (props) => {
   );
 };
 
-export default SearchPanel;
+export default observer(SearchPanel);
