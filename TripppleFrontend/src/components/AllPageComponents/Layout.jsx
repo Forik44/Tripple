@@ -6,6 +6,7 @@ import { Context } from "../../App";
 import AuthModal from "./AuthModal/AuthModal";
 import { Footer } from "./Footer";
 import Header from "./Header";
+import SupportAlert from "./SupportAlert";
 
 const Layout = () => {
   const { store } = useContext(Context);
@@ -20,6 +21,7 @@ const Layout = () => {
       <AuthModal />
       <Header />
       <Outlet />
+      <SupportAlert />
       <Footer />
     </Box>
   );

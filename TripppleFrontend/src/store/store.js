@@ -11,9 +11,28 @@ export default class Store {
   page = 1;
   tempSearch = "";
   actualSearch = "";
+  loader = false;
+  supportAlertIsOpen = false;
+  supportAlertMessage = "";
+  alertVariant = false;
 
   constructor() {
     makeAutoObservable(this);
+  }
+  setAlertIsOpen(bool) {
+    this.supportAlertIsOpen = bool;
+    if (!bool) {
+      this.supportAlertMessage = "";
+    }
+  }
+  setAlertMessage(str) {
+    this.supportAlertMessage = str;
+  }
+  setAlertVariant(bool) {
+    this.alertVariant = true;
+  }
+  setLoader(bool) {
+    this.loader = bool;
   }
   setTempSearch(str) {
     this.tempSearch = str;
@@ -43,22 +62,42 @@ export default class Store {
   }
 
   async appendBucketItem(id) {
-    await UserService.addToBucket(id);
+    try {
+      await UserService.addToBucket(id);
+    } catch (err) {
+      this.setAlertMessage(err.message);
+      this.setAlertVariant(false);
+      this.setAlertIsOpen(true);
+    }
   }
   async deleteBucketItem(id) {
-    await UserService.deleteFromBucket(id);
+    try {
+      await UserService.deleteFromBucket(id);
+    } catch (err) {
+      this.setAlertMessage(err.message);
+      this.setAlertVariant(false);
+      this.setAlertIsOpen(true);
+    }
   }
   async changeAmountInBucket(id, amount) {
-    await UserService.changeAmountItem(id, amount);
+    try {
+      await UserService.changeAmountItem(id, amount);
+    } catch (err) {
+      this.setAlertMessage(err.message);
+      this.setAlertVariant(false);
+      this.setAlertIsOpen(true);
+    }
   }
 
   async login(email, password, google) {
     try {
       const response = await AuthService.login(email, password, google);
-      localStorage.setItem("token", `Bearer ${response.data.token}`);
+      localStorage.setItem("token", response.data.token);
       this.setAuth(true);
-    } catch (e) {
-      console.log(e.response?.data?.message);
+    } catch (err) {
+      this.setAlertMessage(err.message);
+      this.setAlertVariant(false);
+      this.setAlertIsOpen(true);
     }
   }
   async registration(email, password, name, lastName, phone) {
@@ -72,8 +111,10 @@ export default class Store {
       );
       localStorage.setItem("token", response.data.token);
       this.setAuth(true);
-    } catch (e) {
-      console.log(e.response?.data?.message);
+    } catch (err) {
+      this.setAlertMessage(String(err.response.data));
+      this.setAlertVariant(false);
+      this.setAlertIsOpen(true);
     }
   }
   async logout() {
@@ -86,9 +127,11 @@ export default class Store {
       const response = await UserService.getuser();
       this.setUser(response.data);
       this.setAuth(true);
-    } catch (e) {
+    } catch (err) {
       localStorage.removeItem("token");
-      console.log(e.response?.data?.message);
+      this.setAlertMessage(err.message);
+      this.setAlertVariant(false);
+      this.setAlertIsOpen(true);
     }
   }
 }

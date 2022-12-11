@@ -100,16 +100,26 @@ const AccessoryCard = (props) => {
             }}
           >
             {!save ? (
-              <Button
-                size="small"
-                variant="outlined"
-                color = "success"
-                onClick={() => {
-                  store.isAuth ? inBucket() : openModal();
-                }}
+              <Box
+                display={"flex"}
+                flexDirection="column"
+                alignItems={"center"}
               >
-                В корзину
-              </Button>
+                <Typography color="white" sx={{ mb: "0.5rem" }}>
+                  {" "}
+                  Цена: {props.data.price}
+                </Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="success"
+                  onClick={() => {
+                    store.isAuth ? inBucket() : openModal();
+                  }}
+                >
+                  В корзину
+                </Button>
+              </Box>
             ) : (
               <Box
                 sx={{

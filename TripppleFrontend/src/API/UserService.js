@@ -4,23 +4,22 @@ export default class UserService {
     try {
       const response = await $user_api.post(`/check_token`);
       return response;
-    } catch (e) {
-      localStorage.removeItem("token");
-      console.log(e.response?.data?.message);
+    } catch (err) {
+      throw err;
     }
   }
   static async addToBucket(id) {
     try {
       await $user_api.post(`/addtobucket`, { product_id: id });
     } catch (err) {
-      console.log("Какой-то ерор в addtobucket");
+      throw err;
     }
   }
   static async deleteFromBucket(id) {
     try {
       await $user_api.post(`/deletefrombucket`, { product_id: id });
     } catch (err) {
-      console.log("Какой-то ерор в deletefrombucket");
+      throw err;
     }
   }
   static async changeAmountItem(id, amount) {
@@ -30,7 +29,7 @@ export default class UserService {
         amount: amount,
       });
     } catch (err) {
-      console.log("Какой-то ерор в changeAmountItem");
+      throw err;
     }
   }
   static async getBasket() {

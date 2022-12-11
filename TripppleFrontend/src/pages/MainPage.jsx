@@ -10,6 +10,8 @@ import { observer } from "mobx-react-lite";
 import AccessoryService from "../API/AccessoryService";
 import SearchPanel from "../components/MainPageComponents/SearchPanel";
 import { Context } from "../App";
+import Loader from "../components/AllPageComponents/Loader";
+import { Box } from "@mui/material";
 const MainPage = () => {
   const [data, setData] = useState([]);
 
@@ -21,56 +23,68 @@ const MainPage = () => {
   const { store } = useContext(Context);
 
   async function fetchAccessByCategory() {
-    let response = {};
-    if (localStorage.getItem("token")) {
-      response = await AccessoryService.getCategoryByUser(
-        limit,
-        store.page,
-        store.actualSearch,
-        store.minPrice,
-        store.maxPrice,
-        store.category
+    try {
+      store.setLoader(true);
+      let response = {};
+      if (localStorage.getItem("token")) {
+        response = await AccessoryService.getCategoryByUser(
+          limit,
+          store.page,
+          store.actualSearch,
+          store.minPrice,
+          store.maxPrice,
+          store.category
+        );
+      } else {
+        response = await AccessoryService.getCategory(
+          limit,
+          store.page,
+          store.actualSearch,
+          store.minPrice,
+          store.maxPrice,
+          store.category
+        );
+      }
+      setData([...response.data]);
+      setTotalCount(Number(response.headers["x-total-count"]));
+      setTotalPages(
+        getPagesCount(Number(response.headers["x-total-count"]), limit)
       );
-    } else {
-      response = await AccessoryService.getCategory(
-        limit,
-        store.page,
-        store.actualSearch,
-        store.minPrice,
-        store.maxPrice,
-        store.category
-      );
+    } catch (err) {
+    } finally {
+      store.setLoader(false);
     }
-    setData([...response.data]);
-    setTotalCount(Number(response.headers["x-total-count"]));
-    setTotalPages(
-      getPagesCount(Number(response.headers["x-total-count"]), limit)
-    );
   }
   async function fetchEvents() {
-    let response = {};
-    if (localStorage.getItem("token")) {
-      response = await AccessoryService.getAllAccessoryByUser(
-        limit,
-        store.page,
-        store.actualSearch,
-        store.minPrice,
-        store.maxPrice
+    try {
+      store.setLoader(true);
+      let response = {};
+      if (localStorage.getItem("token")) {
+        response = await AccessoryService.getAllAccessoryByUser(
+          limit,
+          store.page,
+          store.actualSearch,
+          store.minPrice,
+          store.maxPrice
+        );
+      } else {
+        response = await AccessoryService.getAllAccessory(
+          limit,
+          store.page,
+          store.actualSearch,
+          store.minPrice,
+          store.maxPrice
+        );
+      }
+      setData([...response.data]);
+      setTotalCount(Number(response.headers["x-total-count"]));
+      setTotalPages(
+        getPagesCount(Number(response.headers["x-total-count"]), limit)
       );
-    } else {
-      response = await AccessoryService.getAllAccessory(
-        limit,
-        store.page,
-        store.actualSearch,
-        store.minPrice,
-        store.maxPrice
-      );
+    } catch (err) {
+    } finally {
+      store.setLoader(false);
     }
-    setData([...response.data]);
-    setTotalCount(Number(response.headers["x-total-count"]));
-    setTotalPages(
-      getPagesCount(Number(response.headers["x-total-count"]), limit)
-    );
   }
   useEffect(() => {
     if (store.page == 1) {
@@ -87,6 +101,9 @@ const MainPage = () => {
     store.setPage(1);
     store.setActualSearch("");
     store.setTempSearch("");
+    store.setCategory(0);
+    store.setMaxPrice(99999);
+    store.setMinPrice(0);
   }, [store.isAuth]);
 
   useEffect(() => {
@@ -151,8 +168,20 @@ const MainPage = () => {
             </Button>
           </Grid>
         </Grid>
-
-        <AccessoryList data={data} totalPages={totalPages} />
+        {store.loader ? (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "50vh",
+            }}
+          >
+            <Loader />
+          </Box>
+        ) : (
+          <AccessoryList data={data} totalPages={totalPages} />
+        )}
       </Container>
     </>
   );
