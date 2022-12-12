@@ -217,7 +217,7 @@ def login_user(request):
         user = User.objects.filter(email=email, password=password)
 
         if not user:
-            return Response("Takogo usera net", status=status.HTTP_400_BAD_REQUEST)
+            return Response("Неправильный email или пароль", status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.get(email=email)
         customUser =CustomUser.objects.get(user=user.id)
         token = customUser.JWT
@@ -284,7 +284,7 @@ def register_user(request):
         user_details['token'] = token
         return Response(user_details, status=status.HTTP_200_OK)
     else:
-        return Response("User yze yest", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Пользователь с таким email уже существует", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -303,7 +303,7 @@ def getUser(request):
         user_details['bucket'] = serializer.data
         return Response(user_details, status=status.HTTP_200_OK)
     else:
-        return Response("JWT is not valide", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Некорректный пользователь", status=status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_200_OK)
 
@@ -320,7 +320,7 @@ def addBucket(request):
             Bucket.objects.create(user_id=user, amount=amount, product_id=product)
             return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Некорректный пользователь", status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -335,7 +335,7 @@ def deleteBucket(request):
         Bucket.objects.get(user_id=user,product_id=product).delete()
         return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Некорректный пользователь", status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -352,7 +352,7 @@ def changeAmountBucket(request):
         bucket.save(update_fields=["amount"])
         return Response(status=status.HTTP_200_OK)
     except:
-        return Response("not JWT or not user or not bucket", status=status.HTTP_400_OK)
+        return Response("Некорректный пользователь или предмета в корзине не существует", status=status.HTTP_400_OK)
 
 from Accessories.models import *
 @api_view(['POST'])
