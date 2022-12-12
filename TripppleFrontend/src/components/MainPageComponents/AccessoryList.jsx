@@ -12,8 +12,6 @@ import { Button } from "@mui/material";
 export function AccessoryList(props) {
   const { store } = useContext(Context);
 
-  //const [currentHeight, setCurrentHeight] = useState(0);
-
   return props.data.length ? (
     <>
       <Grid container>

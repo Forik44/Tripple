@@ -6,6 +6,7 @@ import AccessoryBasketCard from "./AccessoryBusketCard";
 import { useContext } from "react";
 import { Context } from "../../App";
 import Loader from "../../components/AllPageComponents/Loader";
+import ModalBasket from "./ModalBasket";
 const Basket = () => {
   function delCard(id) {
     setData((prev) => prev.filter((item) => item.id != id));
@@ -14,6 +15,8 @@ const Basket = () => {
   const [data, setData] = useState([]);
   const [sum, setSum] = useState(0);
   const [addedList, setAddedList] = useState([0]);
+  const [modalOpened, setModalOpened] = useState(false);
+
   async function fetchBasket() {
     try {
       store.setLoader(true);
@@ -128,6 +131,9 @@ const Basket = () => {
                     variant="outlined"
                     color="success"
                     sx={{ mr: "1.1rem" }}
+                    onClick={() => {
+                      setModalOpened(!modalOpened);
+                    }}
                   >
                     Оформить заказ
                   </Button>
@@ -138,6 +144,12 @@ const Basket = () => {
         </Box>
       )}
       {store.loader && <Loader />}
+      <ModalBasket
+        modalOpened={modalOpened}
+        close={() => {
+          setModalOpened(false);
+        }}
+      />
     </>
   );
 };

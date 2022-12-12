@@ -22,7 +22,6 @@ export default function AuthModal() {
   const { modalOpened, closeModal } = useModal();
   async function handleCallbackResponse(response) {
     let userObject = jwt_decode(response.credential);
-    console.log(userObject);
     await store.login(userObject.email, userObject.name, true);
     router("/");
     window.scrollTo(0, 0);
