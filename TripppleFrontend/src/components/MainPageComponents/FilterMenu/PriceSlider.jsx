@@ -96,7 +96,7 @@ export default function PriceSlider(props) {
             ? Number(event.target.value)
             : prev[0];
 
-        console.log(newValue);
+        //console.log(newValue);
         if (newValue < prev[0] || newValue > maxValue || newValue < minValue) {
           props.onChange(false, true);
           return [prev[0], newValue];
@@ -107,14 +107,14 @@ export default function PriceSlider(props) {
       });
     } else {
       setInputValue((prev) => {
-        console.log(event.target.value);
+        //console.log(event.target.value);
         const newValue =
           event.target.value.length === 0
             ? ""
             : !isNaN(event.target.value)
             ? Number(event.target.value)
             : prev[0];
-        console.log(newValue);
+        //console.log(newValue);
         if (newValue > prev[1] || newValue > maxValue || newValue < minValue) {
           props.onChange(true, true);
 
