@@ -20,7 +20,6 @@ const Configurator = () => {
           return id;
         }
       }),
-      console.log(expanded),
     ];
   const [index, setIndex] = useState(0);
   const title = [
@@ -33,7 +32,7 @@ const Configurator = () => {
   ];
   async function postData() {
     try {
-      ConfiguratorService.postAccess(choosen);
+      await ConfiguratorService.postAccess(choosen);
       store.setAlertMessage("Комплектующие успешно добавлены в корзину");
       store.setAlertVariant(true);
       store.setAlertIsOpen(true);

@@ -272,7 +272,7 @@ def register_user(request):
     surname = request.data['lastName']
     phone = request.data['phone']
     user = User.objects.filter(email=email)
-    if not user:
+    if len(user) == 0:
         User.objects.create(username=email, email=email, password=password, first_name=name, last_name=surname)
         user = User.objects.get(email=email)
         #payload = jwt_payload_handler(user)
@@ -374,7 +374,7 @@ def getProductForConfigurator(request):
         CPU_id = Product.objects.get(id=id).accessory_id
         CPUitem = CPU.objects.get(id=CPU_id)
         if(CPUitem.is_graphic == True):
-            res["data"].append({"id":-1, "title": "Для данного процессора возможна сборка без полноценной видеокарты", "photo": "/media/photos/slon.png"})
+            res["data"].append({"id":-1, "title": "Для данного процессора возможна сборка без полноценной видеокарты", "photo": "/media/photos/2022/12/13/slon.png"})
         products = Product.objects.filter(category_id=2)
         for product in products:
             serializer = ProductSerializer(product, many=False)
@@ -473,6 +473,8 @@ def postConfigurator(request):
                 if i!=3 and i!=4:
                     amount = 1
                     product_id = choosen[i]
+                    if product_id ==-1:
+                        continue
                     product = Product.objects.get(id=product_id)
                     if (Bucket.objects.filter(user_id=user, product_id=product)):
                         bucket = Bucket.objects.get(user_id=user, product_id=product)

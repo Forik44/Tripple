@@ -21,6 +21,7 @@ import jwt_decode from "jwt-decode";
 export default function AuthModal() {
   const { modalOpened, closeModal } = useModal();
   async function handleCallbackResponse(response) {
+    try{
     let userObject = jwt_decode(response.credential);
     await store.login(userObject.email, userObject.name, true);
     router("/");
@@ -29,7 +30,12 @@ export default function AuthModal() {
     reset();
     store.setAlertMessage("Аутентификация прошла успешно");
     store.setAlertVariant(true);
-    store.setAlertIsOpen(true);
+    store.setAlertIsOpen(true);}
+    catch(err){
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   }
   useEffect(() => {
     setTimeout(() => {

@@ -35,7 +35,6 @@ const Basket = () => {
   }, []);
   useEffect(() => {
     let summ = 0;
-    console.log(addedList);
     if (addedList.length > 1) {
       addedList.forEach((item, i) => {
         if (i !== 0) {

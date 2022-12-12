@@ -96,9 +96,7 @@ export default class Store {
       localStorage.setItem("token", response.data.token);
       this.setAuth(true);
     } catch (err) {
-      this.setAlertMessage(String(err.response.data));
-      this.setAlertVariant(false);
-      this.setAlertIsOpen(true);
+      throw err
     }
   }
   async registration(email, password, name, lastName, phone) {
@@ -113,9 +111,7 @@ export default class Store {
       localStorage.setItem("token", response.data.token);
       this.setAuth(true);
     } catch (err) {
-      this.setAlertMessage(String(err.response.data));
-      this.setAlertVariant(false);
-      this.setAlertIsOpen(true);
+     throw err;
     }
   }
   async logout() {
