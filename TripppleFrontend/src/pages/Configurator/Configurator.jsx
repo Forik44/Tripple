@@ -4,8 +4,11 @@ import { Box, Button } from "@mui/material";
 import ConfiguratorService from "../../API/ConfiguretorService";
 import AccAccordion from "./AccAccordion";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../App";
 
 const Configurator = () => {
+  const { store } = useContext(Context);
   const router = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const handleChange = (id) => (event, newExpanded) =>
@@ -29,27 +32,41 @@ const Configurator = () => {
     "Блок питания",
   ];
   async function postData() {
-    ConfiguratorService.postAccess(choosen);
+    try {
+      ConfiguratorService.postAccess(choosen);
+      store.setAlertMessage("Комплектующие успешно добавлены в корзину");
+      store.setAlertVariant(true);
+      store.setAlertIsOpen(true);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   }
   async function fetchData(ind) {
-    const response = await ConfiguratorService.getAccess(
-      index,
-      choosen.slice(0, ind)
-    );
-    setData((prev) => {
-      const arr = [...prev];
-      arr[index] = response.data.data;
-      return arr;
-    });
+    try {
+      store.setLoader(true);
+      const response = await ConfiguratorService.getAccess(
+        index,
+        choosen.slice(0, ind)
+      );
+      setData((prev) => {
+        const arr = [...prev];
+        arr[index] = response.data.data;
+        return arr;
+      });
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    } finally {
+      store.setLoader(false);
+    }
   }
 
   const [choosen, setChoosen] = useState([false, false, false, [], [], false]);
   useEffect(() => {
-    try {
-      fetchData(index);
-    } catch (err) {
-      throw err;
-    }
+    fetchData(index);
   }, [index]);
   const [data, setData] = useState([[], [], [], [], [], []]);
   return (
@@ -96,9 +113,9 @@ const Configurator = () => {
         ))}
         <Box display="flex">
           <Button
-            onClick={() => {
-              postData();
-              router("/basket");
+            onClick={async () => {
+              await postData();
+              router("/");
               window.scrollTo(0, 0);
             }}
             disabled={!choosen[5]}

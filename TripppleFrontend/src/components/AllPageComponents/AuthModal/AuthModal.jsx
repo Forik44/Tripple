@@ -25,8 +25,12 @@ export default function AuthModal() {
     console.log(userObject);
     await store.login(userObject.email, userObject.name, true);
     router("/");
+    window.scrollTo(0, 0);
     closeModal();
     reset();
+    store.setAlertMessage("Аутентификация прошла успешно");
+    store.setAlertVariant(true);
+    store.setAlertIsOpen(true);
   }
   useEffect(() => {
     setTimeout(() => {
@@ -57,10 +61,20 @@ export default function AuthModal() {
 
   const router = useNavigate();
   const onSubmit = async (data) => {
-    await store.login(data.email, data.password, false);
-    router("/");
-    closeModal();
-    reset();
+    try {
+      await store.login(data.email, data.password, false);
+      router("/");
+      window.scrollTo(0, 0);
+      closeModal();
+      reset();
+      store.setAlertMessage("Аутентификация прошла успешно");
+      store.setAlertVariant(true);
+      store.setAlertIsOpen(true);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   };
   return (
     <>

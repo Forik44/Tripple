@@ -20,19 +20,37 @@ import shadows from "@mui/material/styles/shadows";
 
 const AccessoryCard = (props) => {
   const inBucket = async () => {
-    setSave(true);
-    setAmount(1);
-    await store.appendBucketItem(props.data.id);
+    try {
+      setSave(true);
+      setAmount(1);
+      await store.appendBucketItem(props.data.id);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   };
   async function ChangeAmount(count) {
-    let new_amount = amount + count;
-    setAmount(new_amount);
-    await store.changeAmountInBucket(props.data.id, new_amount);
+    try {
+      let new_amount = amount + count;
+      setAmount(new_amount);
+      await store.changeAmountInBucket(props.data.id, new_amount);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   }
   const RemoveItemFromBucket = async () => {
-    setSave(false);
-    setAmount(0);
-    await store.deleteBucketItem(props.data.id);
+    try {
+      setSave(false);
+      setAmount(0);
+      await store.deleteBucketItem(props.data.id);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   };
   const { store } = useContext(Context);
   const [amount, setAmount] = useState(

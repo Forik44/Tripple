@@ -23,13 +23,14 @@ export default class Store {
     this.supportAlertIsOpen = bool;
     if (!bool) {
       this.supportAlertMessage = "";
+      this.alertVariant = false;
     }
   }
   setAlertMessage(str) {
     this.supportAlertMessage = str;
   }
   setAlertVariant(bool) {
-    this.alertVariant = true;
+    this.alertVariant = bool;
   }
   setLoader(bool) {
     this.loader = bool;
@@ -65,7 +66,7 @@ export default class Store {
     try {
       await UserService.addToBucket(id);
     } catch (err) {
-      this.setAlertMessage(err.message);
+      this.setAlertMessage(String(err.response.data));
       this.setAlertVariant(false);
       this.setAlertIsOpen(true);
     }
@@ -74,7 +75,7 @@ export default class Store {
     try {
       await UserService.deleteFromBucket(id);
     } catch (err) {
-      this.setAlertMessage(err.message);
+      this.setAlertMessage(String(err.response.data));
       this.setAlertVariant(false);
       this.setAlertIsOpen(true);
     }
@@ -83,7 +84,7 @@ export default class Store {
     try {
       await UserService.changeAmountItem(id, amount);
     } catch (err) {
-      this.setAlertMessage(err.message);
+      this.setAlertMessage(String(err.response.data));
       this.setAlertVariant(false);
       this.setAlertIsOpen(true);
     }
@@ -95,7 +96,7 @@ export default class Store {
       localStorage.setItem("token", response.data.token);
       this.setAuth(true);
     } catch (err) {
-      this.setAlertMessage(err.message);
+      this.setAlertMessage(String(err.response.data));
       this.setAlertVariant(false);
       this.setAlertIsOpen(true);
     }
@@ -129,7 +130,7 @@ export default class Store {
       this.setAuth(true);
     } catch (err) {
       localStorage.removeItem("token");
-      this.setAlertMessage(err.message);
+      this.setAlertMessage(String(err.response.data));
       this.setAlertVariant(false);
       this.setAlertIsOpen(true);
     }

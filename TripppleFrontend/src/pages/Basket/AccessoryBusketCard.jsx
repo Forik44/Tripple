@@ -20,24 +20,42 @@ import Checkbox from "@mui/material/Checkbox";
 
 const AccessoryBusketCard = (props) => {
   const inBucket = async () => {
-    setSave(true);
-    setAmount(1);
-    await store.appendBucketItem(props.data.id);
+    try {
+      setSave(true);
+      setAmount(1);
+      await store.appendBucketItem(props.data.id);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   };
   async function ChangeAmount(count) {
-    let new_amount = amount + count;
-    setAmount(new_amount);
-    if (choose) {
-      props.onChange(data.id, "upd", new_amount, props.data.price);
+    try {
+      let new_amount = amount + count;
+      setAmount(new_amount);
+      if (choose) {
+        props.onChange(data.id, "upd", new_amount, props.data.price);
+      }
+      await store.changeAmountInBucket(props.data.id, new_amount);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
     }
-    await store.changeAmountInBucket(props.data.id, new_amount);
   }
   const RemoveItemFromBucket = async () => {
-    setSave(false);
-    setAmount(0);
-    props.onChange(data.id, false, 0, 0);
-    props.onDel(data.id);
-    await store.deleteBucketItem(props.data.id);
+    try {
+      setSave(false);
+      setAmount(0);
+      props.onChange(data.id, false, 0, 0);
+      props.onDel(data.id);
+      await store.deleteBucketItem(props.data.id);
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   };
   const { store } = useContext(Context);
   const [amount, setAmount] = useState(

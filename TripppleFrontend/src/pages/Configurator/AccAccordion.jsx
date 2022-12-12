@@ -9,8 +9,12 @@ import React from "react";
 import AccessoryConfCard from "./AccessoryConfCard";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
+import Loader from "../../components/AllPageComponents/Loader";
+import { useContext } from "react";
+import { Context } from "../../App";
 
 const AccAccordion = (props) => {
+  const { store } = useContext(Context);
   return (
     <Accordion
       expanded={
@@ -57,20 +61,22 @@ const AccAccordion = (props) => {
         </AccordionSummary>
       )}
       <AccordionDetails>
+        {store.loader && <Loader />}
         {props.id == 4 && (
           <Typography color="#66FCF1" sx={{ my: "0.5rem" }} align="center">
             Для данной материнской платы можно добавить три накопителя
           </Typography>
         )}
-        {props.data.map((item) => (
-          <AccessoryConfCard
-            type={props.id}
-            key={item.title}
-            data={item}
-            choosen={props.choosen}
-            changeChoosen={(id) => props.changeChoosen(id)}
-          />
-        ))}
+        {!store.loader &&
+          props.data.map((item) => (
+            <AccessoryConfCard
+              type={props.id}
+              key={item.title}
+              data={item}
+              choosen={props.choosen}
+              changeChoosen={(id) => props.changeChoosen(id)}
+            />
+          ))}
         <Button
           color="success"
           size="large"

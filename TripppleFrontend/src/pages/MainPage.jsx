@@ -51,6 +51,9 @@ const MainPage = () => {
         getPagesCount(Number(response.headers["x-total-count"]), limit)
       );
     } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
     } finally {
       store.setLoader(false);
     }
@@ -82,6 +85,9 @@ const MainPage = () => {
         getPagesCount(Number(response.headers["x-total-count"]), limit)
       );
     } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
     } finally {
       store.setLoader(false);
     }
@@ -152,7 +158,6 @@ const MainPage = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              // mr: "1rem",
             }}
           >
             <Button
@@ -169,16 +174,7 @@ const MainPage = () => {
           </Grid>
         </Grid>
         {store.loader ? (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "50vh",
-            }}
-          >
-            <Loader />
-          </Box>
+          <Loader />
         ) : (
           <AccessoryList data={data} totalPages={totalPages} />
         )}

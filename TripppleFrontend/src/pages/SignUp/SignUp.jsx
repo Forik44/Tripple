@@ -41,7 +41,7 @@ const SignUp = () => {
   const router = useNavigate();
   const onSubmit = async (data) => {
     try {
-      store.registration(
+      await store.registration(
         data.email,
         data.password,
         data.name,
@@ -52,10 +52,17 @@ const SignUp = () => {
         name: data.name,
         lastName: data.lastName,
       });
-
+      store.setAlertMessage("Пользователь успешно зарегестрирован");
+      store.setAlertVariant(true);
+      store.setAlertIsOpen(true);
       router("/");
+      window.scrollTo(0, 0);
       reset();
-    } catch (err) {}
+    } catch (err) {
+      store.setAlertMessage(String(err.response.data));
+      store.setAlertVariant(false);
+      store.setAlertIsOpen(true);
+    }
   };
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
